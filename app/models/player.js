@@ -1,8 +1,13 @@
 class Player {
 	
-    constructor(playerName, isAdmin) {
+    constructor(playerName) {
+        this.IS_DRAWING = 0;
+        this.WAITING_TO_DRAW = 1;
+
         this.playerName = playerName;
-        this.isAdmin = isAdmin;
+        this.score = 0;
+        this.guessedCorrect = false;
+        this.playerState = this.WAITING_TO_DRAW;
     }
 }
 

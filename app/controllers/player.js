@@ -1,7 +1,7 @@
 const Player = require('../models/player')
 
-const createPlayer = function (playerName, isAdmin) {
-    let player = new Player(playerName, isAdmin);
+const createPlayer = function (playerName) {
+    let player = new Player(playerName);
     return player;
 }
 

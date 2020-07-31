@@ -17,9 +17,12 @@ app.get('/', (req, res) => {
 });
 
 app.post('/createRoom', function (req, res) {
+    
     let room = roomManager.createRoom(req.body.noOfRounds, req.body.timeToGuess);
-    let player = playerManager.createPlayer(req.body.playerName, true);
-    roomManager.addPlayerToRoom(room.roomName, player);
+    
+    let player = playerManager.createPlayer(req.body.playerName);
+    
+    roomManager.addPlayerToRoom(room.roomName, player, true);
 
     var data = {
         playerName: req.body.playerName,
