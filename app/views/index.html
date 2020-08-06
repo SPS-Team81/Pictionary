@@ -1,9 +1,72 @@
 <html>
 	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	</head>
 	
 	<body>
-		<p>"hello world"</p>
+		<div class="form-box">
+	        <form id="create">
+	            <input type="text" id="admin_name" placeholder="Enter player name" required>
+	            <input type="text" id="no_of_rounds" placeholder="Enter no of rounds" required>
+	            <input type="text" id="time_to_guess" placeholder="Enter time to guess" required>
+	            <button type="submit" class="submit-button">Create</button>
+	        </form>
+
+            <form id="join">
+                <input type="text" id="player_name" class="input-field" placeholder="Enter player name" required>
+                <input type="text" id="room_name" class="input-field" placeholder="Enter private code" required>
+                <button type="submit" class="submit-button">Join</button>
+            </form>
+        </div>
 	</body>
-	
+
+	<script>
+		$('#join').submit(function (e) {
+		    e.preventDefault();
+		    var postData = {
+		        playerName: $('#player_name').val(),
+		        roomName: $('#room_name').val(),
+		    };
+		    if (typeof (sessionStorage) != "undefined") {
+		        sessionStorage.room = JSON.stringify(postData);
+		    }
+		    $.ajax({
+		        url: "/joinRoom",
+		        type: "POST",
+		        dataType: "json",
+		        data: postData,
+		        success: function (data) {
+		            console.log(data);
+		            alert("success!!");
+		        },
+		        fail: function (xhr, textStatus, errorThrown) {
+		            console.log('failed');
+		        }
+		    });
+		});
+
+		$('#create').submit(function (e) {
+		    e.preventDefault();
+		    var postData = {
+		        playerName: $('#admin_name').val(),
+		        noOfRounds: $('#no_of_rounds').val(),
+		        timeToGuess: $('#time_to_guess').val()
+		    };
+
+		    $.ajax({
+		        url: "/createRoom",
+		        type: "POST",
+		        dataType: "json",
+		        data: postData,
+		        success: function (data) {
+		            console.log(data);
+		            if (typeof (sessionStorage) != "undefined") {
+		                sessionStorage.room = JSON.stringify(data);
+		            }
+		            alert("success!!");
+		        }
+		    });
+		});
+	</script>
+
 </html>

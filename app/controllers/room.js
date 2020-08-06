@@ -12,9 +12,8 @@ const createRoom = function (noOfRounds, timeToGuess) {
 
     let roomName = getRoomName();
     let room = new Room(roomName);
-    
     rooms.push(room);
-
+    console.log(room);
     return room;
 }
 
@@ -26,3 +25,5 @@ const addPlayerToRoom = function (roomName, player) {
     }
     return 404;
 }
+
+module.exports = { createRoom, addPlayerToRoom }
