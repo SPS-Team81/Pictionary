@@ -56,22 +56,6 @@ function Canvas() {
       }
     }
 
-    // function randomColor(): string {
-    //   const color = new Array<string>(6);
-
-    //   for (let i = 0; i < 6; i++) {
-    //     const val = Math.floor(Math.random() * 16);
-
-    //     if (val < 10) {
-    //       color[i] = val.toString();
-    //     } else {
-    //       color[i] = String.fromCharCode(val + 87);
-    //     }
-    //   }
-
-    //   return color.join('');
-    // }
-
     if (canvasRef.current) {
       const renderCtx = canvasRef.current.getContext('2d');
 
@@ -105,8 +89,8 @@ function Canvas() {
       <canvas
         id="canvas"
         ref={canvasRef}
-        width={500}
-        height={500}
+        width={900}
+        height={700}
         style={{
           border: '2px solid #000',
           marginTop: 10,
