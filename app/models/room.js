@@ -2,7 +2,7 @@
 
 class Room {
     players = [];
-
+    
     constructor(roomName) {
         this.roomName = roomName;
     }
