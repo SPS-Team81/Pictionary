@@ -13,13 +13,13 @@ class Game {
         this.getWords();
     }
 
-    getWords = function() {
+    getWords() {
         fs.readFile("../../words.txt", function(text){
             this.unusedWords = text.split("\n")
         });
     }
 
-    resetGame = function() {
+    resetGame() {
         for (const player of this.room.players) {
             player.points = 0;
         }
@@ -27,7 +27,7 @@ class Game {
         this.currentPlayerDrawingIndex = 0;
     }
 
-    getCurrentPlayerDrawing = function() {
+    getCurrentPlayerDrawing() {
         return this.game.players[this.currentPlayerDrawingIndex];
     }
 
@@ -35,20 +35,20 @@ class Game {
         return this.currentWord;
     }
 
-    getRoundDuration = function(){
+    getRoundDuration(){
         return this.roundDuration;
     }
 
-    getTotalRounds = function() {
+    getTotalRounds() {
         return this.totalRounds;
     }
 
-    setNewWord = function() {
+    setNewWord() {
         this.currentWord = this.unusedWords[Math.floor((Math.random() * this.unusedWords.length))];
         this.unusedWords.remove(this.currentWord);
     }
 
-    nextTurn = function() {
+    nextTurn() {
         this.currentPlayerDrawingIndex += 1;
         if(this.currentPlayerDrawingIndex == this.room.players.length) {
             this.roundsPlayed += 1;
