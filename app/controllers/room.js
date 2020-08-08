@@ -22,11 +22,9 @@ const getPlayer = function (roomName, playerName) {
 }
 
 const createRoom = function (noOfRounds, timeToGuess) {
-    console.log(noOfRounds + ' ' + timeToGuess);
     let roomName = getRoomName();
     let room = new Room(roomName);
     rooms.push(room);
-    console.log(room);
     return room;
 }
 
@@ -39,4 +37,11 @@ const addPlayerToRoom = function (roomName, player) {
     return 404;
 }
 
-module.exports = {createRoom, getRoom, getPlayer, addPlayerToRoom}
+const setSocketId = function (roomName, playerName, socketId) {
+    let player = getPlayer(roomName, playerName);
+    if (typeof (player) != "undefined") {
+        player.sockerId = socketId;
+    }
+}
+
+module.exports = {createRoom, getRoom, getPlayer, addPlayerToRoom, setSocketId}
