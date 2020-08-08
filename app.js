@@ -47,3 +47,6 @@ app.post('/joinRoom', function (req, res) {
     res.send(JSON.stringify(data));
 });
 
+app.get('/game', (req, res) => {
+    res.sendFile(__dirname + '/app/views/game.html');
+});

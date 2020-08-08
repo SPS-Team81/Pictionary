@@ -39,7 +39,8 @@
 		        data: postData,
 		        success: function (data) {
 		            console.log(data);
-		            alert("success!!");
+		            var url = "/game";
+		            window.location = url;
 		        },
 		        fail: function (xhr, textStatus, errorThrown) {
 		            console.log('failed');
@@ -67,6 +68,8 @@
 		                var myObj = JSON.parse(sessionStorage.room);
 		                document.getElementById("room_code").getElementsByTagName("p")[0].innerHTML = myObj.roomName;
 		            }
+		            var url = "/game";
+		            window.location = url;
 		        }
 		    });
 		});
