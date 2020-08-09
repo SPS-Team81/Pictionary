@@ -10,7 +10,7 @@ const startSocketConnection = function(server) {
 			let playerName = roomJson.playerName;
 			roomManager.setSocketId(roomName, playerName, socket.id);
 			socket.join(roomName);
-			console.log(playerName + ' has joined ' + roomName + ' socket id ' + socket.id);
+			io.sockets.in(roomName).emit('joinedRoom', playerName + " has joined");
 		});
 
 	});
