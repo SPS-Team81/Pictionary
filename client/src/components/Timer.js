@@ -20,7 +20,7 @@ export default class Clock extends React.Component {
     }
 
     render() {
-        const { timeRemaining } = this.state
+        // const { timeRemaining } = this.state
         return (
             <div style={{ padding: 10 }}>
                 <h3 style={{ marginTop: 10, backgroundColor: 'lightgray', padding: 8, textAlign: "center" }}>
