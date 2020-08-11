@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@material-ui/core';
 
 export default class ScoreBoard extends React.Component {
     constructor(props) {
@@ -20,8 +20,16 @@ export default class ScoreBoard extends React.Component {
                         <TableBody>{this.state.playersList.map(function (item, key) {
                             return (
                                 <TableRow key={key}>
-                                    <TableCell>{item.username}</TableCell>
-                                    <TableCell>{item.points}</TableCell>
+                                    <TableCell style={{ paddingLeft: 40 }}>{item.username}</TableCell>
+                                    <TableCell>
+                                        <Button variant="contained" color="primary">{item.points}</Button>
+                                    </TableCell>
+                                    <TableCell>
+                                        <i className="material-icons">brush</i>
+                                        {/* <span class="material-icons">
+                                            brush
+                                        </span> */}
+                                    </TableCell>
                                 </TableRow>
                             )
                         }, this)}
