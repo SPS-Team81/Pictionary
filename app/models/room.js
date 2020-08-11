@@ -1,13 +1,13 @@
 'use strict';
 
 class Room {
-    players = [];
-    
-    constructor(roomName) {
+
+  constructor(roomName) {
+        this.players = [];
         this.roomName = roomName;
     }
 
-    addPlayerToRoom = function (player) {
+    addPlayerToRoom(player) {
        this.players.push(player);
     }
 
