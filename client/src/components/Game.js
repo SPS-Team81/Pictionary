@@ -5,6 +5,7 @@ import ScoreBoard from './ScoreBoard';
 import Timer from './Timer';
 import ChatBox from './ChatBox';
 import axios from 'axios';
+import {QueryGameData} from './api';
 import CanvasDraw from 'react-canvas-draw';
 
 export default class Game extends React.Component {
@@ -26,7 +27,7 @@ export default class Game extends React.Component {
     }
 
     queryGameData() {
-        axios.get(QUERY_GAME_DATA+roomName).then(res => {
+        axios.get(QueryGameData+roomName).then(res => {
             this.setState({
                 playerList:res.data.playerList,
                 roundsPlayed: res.data.roundsPlayed,
