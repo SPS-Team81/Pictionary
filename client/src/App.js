@@ -1,9 +1,9 @@
 import React from 'react';
-import Main from './components/Main';
+import Game from './components/Game';
 
 function App() {
     return (
-        <Main />
+        <Game />
     );
 }
 
