@@ -9,6 +9,7 @@ class Game {
         this.currentPlayerDrawingIndex = 0;
         this.unusedWords = [];
         this.currentWord = none;
+        this.guessStatus = new Array(room.players.length);
 
         this.getWords();
     }
@@ -20,8 +21,9 @@ class Game {
     }
 
     resetGame() {
-        for (const player of this.room.players) {
-            player.points = 0;
+        for (index = 0; index < this.room.players.length; index++) {
+            this.room.players[index].points = 0;
+            this.guessStatus[index] = false;
         }
         this.roundsPlayed = 0;
         this.currentPlayerDrawingIndex = 0;
@@ -57,6 +59,9 @@ class Game {
                 this.announceWinner();
                 return;
             }
+        }
+        for (index = 0; index < this.room.players.length; index++) {
+            this.guessStatus[i] = false;
         }
         this.setNewWord();
     }

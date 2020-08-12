@@ -5,6 +5,7 @@ const {port} = require('./config');
 
 let roomManager = require('./app/controllers/room')
 let playerManager = require('./app/controllers/player')
+let gameManager =  require('./app/controllers/game')
 let socket = require('./app/controllers/socket')
 
 var url = require('url');
@@ -45,6 +46,30 @@ app.post('/joinRoom', function (req, res) {
 	res.send(JSON.stringify(data));
 });
 
-app.get('/game', (req, res) => {
-	res.sendFile(__dirname + '/app/views/game.html');
+app.get('/gameData/:roomName', (req, res) => {
+	let room = roomManager.getRoom(req.params.roomName);
+	let game = gameManager.getGame(req.params.roomName)
+	let playerList = [];
+	for (i = 0;i<room.player.length;i++) {
+		let isDrawing = false;
+		if (index == game.cuurentPlayerDrawingIndex) {
+			isDrawing = true;
+		}
+		let player = {
+			username: room.players[index].playerName,
+			points: room.players[index].points,
+			socketId: room.players[index].socketId,
+			drawing: isDrawing,
+			guessed: game.guessStatus[index],
+		};
+		playerList.push(player);
+	}
+	let data = {
+		playerList: playerList,
+		roundsPlayed: game.roundsPlayed,
+		toatlRounds: game.getToatlRounds(),
+		roundDuration: game.getRoundDuration(),
+		currentWord: game.getCurrentWord(),
+	};
+	res.send(JSON.stringify(data));
 });

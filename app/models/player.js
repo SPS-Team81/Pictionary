@@ -1,10 +1,10 @@
 class Player {
-	scoketId;
-	score;
+	
     constructor(playerName, isAdmin) {
         this.playerName = playerName;
         this.isAdmin = isAdmin;
         this.points = 0;
+        this.scoketId = 0;
     }
 }
 
