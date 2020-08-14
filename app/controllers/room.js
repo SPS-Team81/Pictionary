@@ -21,7 +21,7 @@ const getPlayer = function (roomName, playerName) {
     return undefined;
 }
 
-const createRoom = function (noOfRounds, timeToGuess) {
+const createRoom = function () {
     let roomName = getRoomName();
     let room = new Room(roomName);
     rooms.push(room);

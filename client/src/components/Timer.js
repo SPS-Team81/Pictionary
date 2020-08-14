@@ -3,7 +3,7 @@ import React from 'react';
 export default class Clock extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {timeRemaining: 1000 };
+        this.state = {timeRemaining: parseInt(this.props.roundDuration+"") };
     }
     
     componentDidMount() {
@@ -14,6 +14,9 @@ export default class Clock extends React.Component {
     }
 
     tick() {
+        // if(timeRemaining == 0) {
+        //     axios.get()
+        // }  
         this.setState(({timeRemaining}) => ({
             timeRemaining: timeRemaining - 1
         }));

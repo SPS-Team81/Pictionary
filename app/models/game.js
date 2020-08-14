@@ -1,14 +1,14 @@
 var fs = require("fs");
 
 class Game {
-    constructor(room,roundDuration,totalRounds,players) {
+    constructor(room,roundDuration,totalRounds) {
         this.roundDuration = roundDuration;
         this.totalRounds = totalRounds;
         this.room = room;
         this.roundsPlayed = 0;
         this.currentPlayerDrawingIndex = 0;
         this.unusedWords = [];
-        this.currentWord = none;
+        this.currentWord = '';
         this.guessStatus = new Array(room.players.length);
 
         this.getWords();
@@ -16,6 +16,7 @@ class Game {
 
     getWords() {
         fs.readFile("../../words.txt", function(text){
+            text = text+"";
             this.unusedWords = text.split("\n")
         });
     }
@@ -33,7 +34,7 @@ class Game {
         return this.game.players[this.currentPlayerDrawingIndex];
     }
 
-    getCurrentWord = function() {
+    getCurrentWord() {
         return this.currentWord;
     }
 

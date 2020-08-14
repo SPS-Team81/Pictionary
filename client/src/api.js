@@ -1,6 +1,17 @@
 // This file contains all the APIs 
+import openSocket from 'socket.io-client';
 
-const BASE_API_URL = 'http://127.0.0.1:8000/';
+
+export const ENDPOINT = 'http://127.0.0.1:3000/';
+const socket  = openSocket(ENDPOINT);
 
 
-export const QueryGameData = BASE_API_URL + 'gameData/'
+function queryGameData(roomName,cb) {
+    socket.emit('dataQuery',roomName);
+    socket.on('sendData',data => {
+        let dataJson = JSON.parse(data);
+        cb(null,dataJson)
+    }); 
+}
+
+export {queryGameData};

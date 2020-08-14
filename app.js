@@ -27,7 +27,8 @@ app.post('/createRoom', function (req, res) {
 	let room = roomManager.createRoom(req.body.noOfRounds, req.body.timeToGuess);
 	let player = playerManager.createPlayer(req.body.playerName, true);
 	roomManager.addPlayerToRoom(room.roomName, player);
-
+	let game = gameManager.createGame(room, req.timeToGuess, req.body.noOfRounds);
+	
 	var data = {
 	    playerName: req.body.playerName,
 	    isAdmin: true,
@@ -46,30 +47,7 @@ app.post('/joinRoom', function (req, res) {
 	res.send(JSON.stringify(data));
 });
 
-app.get('/gameData/:roomName', (req, res) => {
-	let room = roomManager.getRoom(req.params.roomName);
-	let game = gameManager.getGame(req.params.roomName)
-	let playerList = [];
-	for (i = 0;i<room.player.length;i++) {
-		let isDrawing = false;
-		if (index == game.cuurentPlayerDrawingIndex) {
-			isDrawing = true;
-		}
-		let player = {
-			username: room.players[index].playerName,
-			points: room.players[index].points,
-			socketId: room.players[index].socketId,
-			drawing: isDrawing,
-			guessed: game.guessStatus[index],
-		};
-		playerList.push(player);
-	}
-	let data = {
-		playerList: playerList,
-		roundsPlayed: game.roundsPlayed,
-		toatlRounds: game.getToatlRounds(),
-		roundDuration: game.getRoundDuration(),
-		currentWord: game.getCurrentWord(),
-	};
-	res.send(JSON.stringify(data));
+app.get('/game', (req, res) => {
+	res.sendFile(__dirname + '/app/views/game.html');
 });
+
