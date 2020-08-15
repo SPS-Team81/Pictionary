@@ -12,6 +12,10 @@
 	            <button type="submit" class="submit-button">Create</button>
 	        </form>
 
+	        <div id="room_code">
+	        	<p></p>
+	        </div>
+
             <form id="join">
                 <input type="text" id="player_name" class="input-field" placeholder="Enter player name" required>
                 <input type="text" id="room_name" class="input-field" placeholder="Enter private code" required>
@@ -37,7 +41,8 @@
 		        data: postData,
 		        success: function (data) {
 		            console.log(data);
-		            alert("success!!");
+		            var url = "/game";
+		            window.location = url;
 		        },
 		        fail: function (xhr, textStatus, errorThrown) {
 		            console.log('failed');
@@ -59,14 +64,15 @@
 		        dataType: "json",
 		        data: postData,
 		        success: function (data) {
-		            console.log(data);
-		            if (typeof (sessionStorage) != "undefined") {
+		            if(typeof(sessionStorage) != "undefined") {
 		                sessionStorage.room = JSON.stringify(data);
+		                var myObj = JSON.parse(sessionStorage.room);
+		                document.getElementById("room_code").getElementsByTagName("p")[0].innerHTML = myObj.roomName;
 		            }
-		            alert("success!!");
+		            var url = "/game";
+		            window.location = url;
 		        }
 		    });
 		});
 	</script>
-
 </html>
