@@ -170,17 +170,11 @@ function Canvas() {
                     className="slider"
                 ></input>
 
-                <List className="horizontal-list">
-                    <ListItem className="horizontal-list-item">
-                        <i className="material-icons" onClick={selectBrush} style={{ cursor: "pointer" }}>brush</i>
-                    </ListItem>
-                    <ListItem className="horizontal-list-item">
-                        <img src="https://img.icons8.com/material/24/000000/eraser--v1.png" onClick={selectEraser} style={{ cursor: "pointer" }} />
-                    </ListItem>
-                    <ListItem className="horizontal-list-item">
-                        <i className="material-icons" onClick={onClearCanvas} style={{ cursor: "pointer" }}>delete</i>
-                    </ListItem>
-                </List>
+                <div className="horizontal-list">
+                    <i className="material-icons" onClick={selectBrush} style={{ cursor: "pointer" }}>brush</i>
+                    <img src="https://img.icons8.com/material/24/000000/eraser--v1.png" onClick={selectEraser} style={{ cursor: "pointer", marginRight: 20, marginLeft: 20 }} />
+                    <i className="material-icons" onClick={onClearCanvas} style={{ cursor: "pointer" }}>delete</i>
+                </div>
             </div>
         </div>
     );

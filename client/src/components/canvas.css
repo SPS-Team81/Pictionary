@@ -19,8 +19,6 @@ canvas {
 
 .horizontal-list {
   float: right;
-}
-
-.horizontal-list-item {
-  float: left;
+  margin-top: 0.6vw;
+  margin-right: 1vw;
 }
