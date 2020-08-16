@@ -1,12 +1,22 @@
 canvas {
-  width: 100%;
+  width: 48vw;
   height: 38vw;
 }
 
 .canvas-tools {
-  /* width: 100%; */
+  width: 48vw;
   border: 0.15vw;
   border-style: solid;
   border-color: black;
-  padding: 0.8vw;
+  margin: auto;
+}
+
+.slider {
+  margin-top: 0.8vw;
+  margin-bottom: 0.8vw;
+  margin-left: 0.8vw;
+}
+
+.horizontal-list {
+  float: right;
 }

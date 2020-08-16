@@ -1,11 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './canvas.css'
+import { List, ListItem } from '@material-ui/core';
 
 function Canvas() {
     let drawing = false;
     const current = { x: 0, y: 0 };
     const canvasRef = useRef(null);
     const [sliderValue, changeSlider] = useState(50);
+
+    useEffect(() => {
+        onResize();
+    }, []);
+
+    function onResize(e) {
+        canvasRef.current.width = canvasRef.current.offsetWidth;
+        canvasRef.current.height = canvasRef.current.offsetHeight;
+    }
 
     function drawLine(x0, y0, x1, y1, color) {
         const context = canvasRef.current.getContext('2d');
@@ -116,13 +126,16 @@ function Canvas() {
         changeSlider(e.target.value);
     }
 
+    function onClearCanvas() {
+        const context = canvasRef.current.getContext('2d');
+        context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    }
+
     return (
         <div>
             <div style={{ textAlign: "center" }}>
                 <canvas
                     ref={canvasRef}
-                    width={900}
-                    height={700}
                     style={{ border: '2px solid #000', marginTop: 20 }}
                     onMouseDown={(e) => onMouseDown(e)}
                     onMouseUp={(e) => onMouseUp(e)}
@@ -141,7 +154,15 @@ function Canvas() {
                     min="1" max="100"
                     value={sliderValue}
                     onChange={(e) => onSliderChange(e)}
-                    step="1"></input>
+                    step="1"
+                    className="slider"
+                ></input>
+
+                <List className="horizontal-list">
+                    <ListItem>
+                        <i className="material-icons" onClick={onClearCanvas} style={{ cursor: "pointer" }}>delete</i>
+                    </ListItem>
+                </List>
             </div>
         </div>
     );
