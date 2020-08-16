@@ -48,13 +48,3 @@ app.post('/joinRoom', function (req, res) {
 app.get('/game', (req, res) => {
 	res.sendFile(__dirname + '/app/views/game.html');
 });
-
-app.post('/joinRoom', function (req, res) {
-    console.log(req.body);
-    let player = playerManager.createPlayer(req.body.playerName, false);
-    let status = roomManager.addPlayerToRoom(req.body.roomName, player);
-    console.log(status);
-    let data = { status: status };
-    res.status(status);
-    res.send(JSON.stringify(data));
-});
