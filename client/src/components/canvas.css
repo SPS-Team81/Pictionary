@@ -20,3 +20,7 @@ canvas {
 .horizontal-list {
   float: right;
 }
+
+.horizontal-list-item {
+  float: left;
+}

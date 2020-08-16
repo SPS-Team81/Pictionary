@@ -3,6 +3,7 @@ import './canvas.css'
 import { List, ListItem } from '@material-ui/core';
 
 function Canvas() {
+    let mode = "pen";
     let drawing = false;
     const current = { x: 0, y: 0 };
     const canvasRef = useRef(null);
@@ -12,13 +13,14 @@ function Canvas() {
         onResize();
     }, []);
 
-    function onResize(e) {
+    function onResize() {
         canvasRef.current.width = canvasRef.current.offsetWidth;
         canvasRef.current.height = canvasRef.current.offsetHeight;
     }
 
     function drawLine(x0, y0, x1, y1, color) {
         const context = canvasRef.current.getContext('2d');
+        context.globalCompositeOperation = "source-over";
         context.beginPath();
         context.moveTo(x0, y0);
         context.lineTo(x1, y1);
@@ -30,8 +32,8 @@ function Canvas() {
         // if (!emit) {
         //     return;
         // }
-        var w = canvasRef.current.width;
-        var h = canvasRef.current.height;
+        // var w = canvasRef.current.width;
+        // var h = canvasRef.current.height;
 
         // io.emit('C_S_DRAW', {
         //     x0: x0 / w,
@@ -42,31 +44,14 @@ function Canvas() {
         // });
     }
 
-    function onMouseDown(e) {
-        var rect = e.target.getBoundingClientRect();
-        const scaleX = canvasRef.current.width / rect.width;
-        const sclaeY = canvasRef.current.height / rect.height;
-        const inputX = e.clientX || e.touches[0].clientX;
-        const inputY = e.clientY || e.touches[0].clientY;
-
-        var x = (inputX - rect.left) * scaleX;
-        var y = (inputY - rect.top) * sclaeY;
-
-        drawing = true;
-
-        current.x = x;
-        current.y = y;
+    function erase(e) {
+        const context = canvasRef.current.getContext('2d');
+        context.globalCompositeOperation = "destination-out";
+        context.arc(current.x, current.y, 8, 0, Math.PI * 2, false);
+        context.fill();
     }
 
-    function onMouseUp(e) {
-        if (!drawing) {
-            return;
-        }
-        drawing = false;
-        if (!e || e.touches) {
-            return;
-        }
-
+    function obtainPosition(e) {
         var rect = e.target.getBoundingClientRect();
         const scaleX = canvasRef.current.width / rect.width;
         const scaleY = canvasRef.current.height / rect.height;
@@ -76,7 +61,25 @@ function Canvas() {
         var x = (inputX - rect.left) * scaleX;
         var y = (inputY - rect.top) * scaleY;
 
-        drawLine(current.x, current.y, x, y, current.color);
+        return [x, y];
+    }
+
+    function onMouseDown(e) {
+        drawing = true;
+
+        var pos = obtainPosition(e);
+
+        current.x = pos[0];
+        current.y = pos[1];
+    }
+
+    function onMouseUp(e) {
+        drawing = false;
+
+        var pos = obtainPosition(e);
+
+        current.x = pos[0];
+        current.y = pos[1];
     }
 
     function onMouseMove(e) {
@@ -84,19 +87,19 @@ function Canvas() {
             return;
         }
 
-        var rect = e.target.getBoundingClientRect();
-        const scaleX = canvasRef.current.width / rect.width;
-        const scaleY = canvasRef.current.height / rect.height;
-        const inputX = e.clientX || e.touches[0].clientX;
-        const inputY = e.clientY || e.touches[0].clientY;
+        var lastX = current.x;
+        var lastY = current.y;
 
-        var x = (inputX - rect.left) * scaleX;
-        var y = (inputY - rect.top) * scaleY;
+        var pos = obtainPosition(e);
 
-        drawLine(current.x, current.y, x, y, current.color);
+        current.x = pos[0];
+        current.y = pos[1];
 
-        current.x = x;
-        current.y = y;
+        if (mode == "pen") {
+            drawLine(lastX, lastY, current.x, current.y, current.color);
+        } else {
+            erase(e);
+        }
     }
 
     function throttle(callback, delay) {
@@ -126,9 +129,18 @@ function Canvas() {
         changeSlider(e.target.value);
     }
 
+    function selectBrush() {
+        mode = "pen";
+    }
+
+    function selectEraser() {
+        mode = "eraser";
+    }
+
     function onClearCanvas() {
         const context = canvasRef.current.getContext('2d');
         context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+        mode = "pen";
     }
 
     return (
@@ -159,7 +171,13 @@ function Canvas() {
                 ></input>
 
                 <List className="horizontal-list">
-                    <ListItem>
+                    <ListItem className="horizontal-list-item">
+                        <i className="material-icons" onClick={selectBrush} style={{ cursor: "pointer" }}>brush</i>
+                    </ListItem>
+                    <ListItem className="horizontal-list-item">
+                        <img src="https://img.icons8.com/material/24/000000/eraser--v1.png" onClick={selectEraser} style={{ cursor: "pointer" }} />
+                    </ListItem>
+                    <ListItem className="horizontal-list-item">
                         <i className="material-icons" onClick={onClearCanvas} style={{ cursor: "pointer" }}>delete</i>
                     </ListItem>
                 </List>
