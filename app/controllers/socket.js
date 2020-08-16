@@ -13,6 +13,17 @@ const startSocketConnection = function(server) {
 			io.sockets.in(roomName).emit('joinedRoom', playerName + " has joined");
 		});
 
+		socket.on('message', function(data){
+			let playerData = data.playerData;
+			let roomName = data.playerData.roomName;
+			let message = data.message;
+		    let dataMessage = {
+		        player: roomManager.getPlayer(roomName, playerData.playerName),
+		        message: message,
+		    }			
+			io.sockets.in(roomName).emit('message', JSON.stringify(dataMessage));
+		});
+
 	});
 }
 
