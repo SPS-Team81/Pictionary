@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import './canvas.css'
 
-const Canvas = () => {
+function Canvas() {
     let drawing = false;
     const current = { x: 0, y: 0 };
     const canvasRef = useRef(null);
+    const [sliderValue, changeSlider] = useState(50);
 
     function drawLine(x0, y0, x1, y1, color) {
         const context = canvasRef.current.getContext('2d');
@@ -11,7 +13,7 @@ const Canvas = () => {
         context.moveTo(x0, y0);
         context.lineTo(x1, y1);
         context.strokeStyle = color;
-        context.lineWidth = 3;
+        context.lineWidth = sliderValue / 10;
         context.stroke();
         context.closePath();
 
@@ -110,22 +112,37 @@ const Canvas = () => {
         context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
     };
 
+    function onSliderChange(e) {
+        changeSlider(e.target.value);
+    }
+
     return (
-        <div style={{ textAlign: "center" }}>
-            <canvas
-                ref={canvasRef}
-                width={900}
-                height={700}
-                style={{ border: '2px solid #000', marginTop: 20 }}
-                onMouseDown={(e) => onMouseDown(e)}
-                onMouseUp={(e) => onMouseUp(e)}
-                onMouseOut={(e) => onMouseUp(e)}
-                onMouseMove={(e) => throttle(onMouseMove(e), 10)}
-                onTouchStart={(e) => onMouseDown(e)}
-                onTouchEnd={(e) => onMouseUp(e)}
-                onTouchCancel={(e) => onMouseUp(e)}
-                onTouchMove={(e) => throttle(onMouseMove(e), 10)}
-            ></canvas>
+        <div>
+            <div style={{ textAlign: "center" }}>
+                <canvas
+                    ref={canvasRef}
+                    width={900}
+                    height={700}
+                    style={{ border: '2px solid #000', marginTop: 20 }}
+                    onMouseDown={(e) => onMouseDown(e)}
+                    onMouseUp={(e) => onMouseUp(e)}
+                    onMouseOut={(e) => onMouseUp(e)}
+                    onMouseMove={(e) => throttle(onMouseMove(e), 10)}
+                    onTouchStart={(e) => onMouseDown(e)}
+                    onTouchEnd={(e) => onMouseUp(e)}
+                    onTouchCancel={(e) => onMouseUp(e)}
+                    onTouchMove={(e) => throttle(onMouseMove(e), 10)}
+                ></canvas>
+            </div>
+
+            <div className="canvas-tools">
+                <input
+                    type="range"
+                    min="1" max="100"
+                    value={sliderValue}
+                    onChange={(e) => onSliderChange(e)}
+                    step="1"></input>
+            </div>
         </div>
     );
 };
