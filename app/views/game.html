@@ -20,16 +20,7 @@
 		$(document).ready(function () {
 			joinRoom();
 		});
-		var myObj = JSON.parse(sessionStorage.room);
-		document.getElementById("room_code").getElementsByTagName("p")[0].innerHTML = myObj.roomName;
 		const socket = io.connect('http://localhost:3000');
-		
-		function joinRoom() {
-			if (typeof(sessionStorage) != "undefined") {
-				socket.emit('join', sessionStorage.room);
-			}
-		}
-
 	    $('#message-form').submit(function (e) {
 	        e.preventDefault();
 	        var jsonUserData = JSON.parse(sessionStorage.room);
@@ -40,8 +31,20 @@
 	        return false;
 	    });
 
+		function joinRoom() {
+			if (typeof(sessionStorage) != "undefined") {
+				socket.emit('join', sessionStorage.room);
+			}
+		}
+
+		var myObj = JSON.parse(sessionStorage.room);
+		document.getElementById("room_code").getElementsByTagName("p")[0].innerHTML = myObj.roomName;		
+		
+
+
 		socket.on('joinedRoom', (message) => {
 			console.log(message);
+			$('#messages').append($('<li>').text(message));
 		});
 
 	    socket.on('message', (messageData) => {
