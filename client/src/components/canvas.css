@@ -1,8 +1,24 @@
 canvas {
-  position: absolute;
-  height: 50vw;
-  width: 50vw;
+  width: 48vw;
+  height: 38vw;
+}
+
+.canvas-tools {
+  width: 48vw;
+  border: 0.15vw;
   border-style: solid;
   border-color: black;
-  z-index: 10;
+  margin: auto;
+}
+
+.slider {
+  margin-top: 0.8vw;
+  margin-bottom: 0.8vw;
+  margin-left: 0.8vw;
+}
+
+.horizontal-list {
+  float: right;
+  margin-top: 0.6vw;
+  margin-right: 1vw;
 }
