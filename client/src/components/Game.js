@@ -4,9 +4,13 @@ import Canvas from './Canvas';
 import ScoreBoard from './ScoreBoard';
 import Timer from './Timer';
 import ChatBox from './ChatBox';
-import {queryGameData} from '../api';
+import {queryGameData,joinPlayerInGame} from '../api';
 import CanvasDraw from 'react-canvas-draw';
 
+function setGameData(data) {
+    this.setState({
+    });
+} 
 export default class Game extends React.Component {
     constructor(props) {
         super(props);
@@ -18,12 +22,11 @@ export default class Game extends React.Component {
             roundDuration: 0,
             currentWord: '',
         };
-        this.fetchData  = this.fetchData.bind(this);
-        // this.fetchData();
+        setGameData = setGameData.bind(this);
     }
 
     componentDidMount() {
-        this.fetchData() 
+        joinPlayerInGame();
     }
 
     fetchData() {
@@ -61,3 +64,4 @@ export default class Game extends React.Component {
     }
 }
 
+export {setGameData};

@@ -10,6 +10,7 @@ const startSocketConnection = function(server) {
 		
 		socket.on('join', function(room) {
 			let roomJson = JSON.parse(room);
+			console.log(roomJson);
 			let roomName = roomJson.roomName;
 			let playerName = roomJson.playerName;
 			roomManager.setSocketId(roomName, playerName, socket.id);

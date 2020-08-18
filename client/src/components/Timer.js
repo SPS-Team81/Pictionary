@@ -1,9 +1,15 @@
 import React from 'react';
 
+function setTimerData(data) {
+    this.setState({
+    });
+} 
+
 export default class Clock extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {timeRemaining: parseInt(this.props.roundDuration+"") };
+        this.state = {timeRemaining: 0 };
+        setTimerData = setTimerData.bind(this);
     }
     
     componentDidMount() {

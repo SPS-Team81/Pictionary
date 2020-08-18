@@ -1,12 +1,18 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@material-ui/core';
 
+function setScoreBoardData(data) {
+    this.setState({
+    });
+} 
+
 export default class ScoreBoard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            playersList: props.playersList,
+            playersList: [],
         };
+        setScoreBoardData = setScoreBoardData.bind(this);
         // console.log('props: '+props.playersList.length)
     }
 
