@@ -1,18 +1,20 @@
 import React from 'react';
+import {socket} from '../api.js';
 
-function setTimerData(data) {
-    this.setState({
-    });
-} 
 
 export default class Clock extends React.Component {
     constructor(props) {
         super(props);
         this.state = {timeRemaining: 0 };
-        setTimerData = setTimerData.bind(this);
     }
     
     componentDidMount() {
+        socket.on('playerChangeUpdate',(data) => {
+            let dataJson = JSON.parse(data);
+            this.setState({
+                timeRemaining: dataJson.roundDuration,
+            });
+        });
         this.timerId = setInterval(
             () => this.tick(),
             1000

@@ -1,10 +1,8 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@material-ui/core';
+import {socket} from '../api.js';
 
-function setScoreBoardData(data) {
-    this.setState({
-    });
-} 
+
 
 export default class ScoreBoard extends React.Component {
     constructor(props) {
@@ -12,11 +10,21 @@ export default class ScoreBoard extends React.Component {
         this.state = {
             playersList: [],
         };
-        setScoreBoardData = setScoreBoardData.bind(this);
         // console.log('props: '+props.playersList.length)
     }
 
+    componentDidMount() {
+        socket.on('playerChangeUpdate',(data) => {
+            let dataJson = JSON.parse(data);
+            this.setState({
+                playersList: dataJson.playersList,
+            });
+        });
+    }
+
     render() {
+        console.log("Place 2");
+        // console.log(this.state.playersList)
         return (
             <div style={{ padding: 10 }}>
                 <h3 style={{ marginTop: 10, backgroundColor: 'lightgray', padding: 8, textAlign: "center" }}>

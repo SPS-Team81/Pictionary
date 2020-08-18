@@ -30,4 +30,4 @@ function queryGameData(roomName,cb) {
     }); 
 }
 
-export {queryGameData,joinPlayerInGame};
+export {queryGameData,joinPlayerInGame,socket};
