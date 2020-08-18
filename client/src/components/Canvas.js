@@ -9,6 +9,17 @@ function Canvas() {
     const canvasRef = useRef(null);
     const [sliderValue, changeSlider] = useState(50);
 
+    // useEffect(() => {
+    //     if (io) {
+    //         io.on('S_C_DRAW', onDrawingEvent);
+    //         io.on('GE_NEW_ROUND', clearCanvas);
+    //     }
+    //     return () => {
+    //         io.off('S_C_DRAW', onDrawingEvent);
+    //         io.off('GE_NEW_ROUND', clearCanvas);
+    //     };
+    // }, [io]);
+
     useEffect(() => {
         onResize();
     }, []);
