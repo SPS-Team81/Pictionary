@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './canvas.css'
-import { List, ListItem } from '@material-ui/core';
 
 function Canvas() {
     let mode = "pen";
@@ -29,7 +28,7 @@ function Canvas() {
         canvasRef.current.height = canvasRef.current.offsetHeight;
     }
 
-    function drawLine(x0, y0, x1, y1, color) {
+    function drawLine(x0, y0, x1, y1, color, emit) {
         const context = canvasRef.current.getContext('2d');
         context.globalCompositeOperation = "source-over";
         context.beginPath();
@@ -107,7 +106,7 @@ function Canvas() {
         current.y = pos[1];
 
         if (mode == "pen") {
-            drawLine(lastX, lastY, current.x, current.y, current.color);
+            drawLine(lastX, lastY, current.x, current.y, current.color, true);
         } else {
             erase(e);
         }
