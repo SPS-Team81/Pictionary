@@ -1,13 +1,12 @@
 import React from 'react';
+import './chatbox.css'
 
-function ChatBox() {
-    return (
-        <div style={{ padding: 10 }}>
-            <h3 style={{ marginTop: 10, backgroundColor: 'lightgray', padding: 8, textAlign: "center" }}>
-                Chat
-            </h3>
-        </div>
-    );
+export default class ChatBox extends React.Component {
+    render() {
+        return (
+            <div className="chat-box">
+
+            </div>
+        );
+    }
 }
-
-export default ChatBox;
