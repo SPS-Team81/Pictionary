@@ -1,6 +1,6 @@
 const Game = require('../models/game')
 const Room = require('../models/room')
-const RoomManager = require('./room')
+const roomManager = require('./room.js')
 
 var games = []
 
@@ -21,7 +21,7 @@ const getGame = function(roomName) {
 }
 
 const sendData = function(roomName) {
-	var room = RoomManager.getRoom(roomName);
+	var room = roomManager.getRoom(roomName);
 	if(typeof(room)=="undefined") {
 		return;
 	}

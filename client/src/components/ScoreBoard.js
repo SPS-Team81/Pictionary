@@ -9,7 +9,6 @@ export default class ScoreBoard extends React.Component {
         this.state = {
             playersList: [],
         };
-        // console.log('props: '+props.playersList.length)
     }
 
     componentDidMount() {

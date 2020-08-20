@@ -4,20 +4,12 @@ import Canvas from './Canvas';
 import ScoreBoard from './ScoreBoard';
 import Timer from './Timer';
 import ChatBox from './ChatBox';
-// import {joinPlayerInGame} from '../api';
 
-function setGameData(data) {
-    this.setState({
-    });
-} 
 export default class Game extends React.Component {
     constructor(props) {
         super(props);
     }
 
-    componentDidMount() {
-        // joinPlayerInGame();
-    }
 
     render() {
         return(
@@ -39,5 +31,3 @@ export default class Game extends React.Component {
         );
     }
 }
-
-export {setGameData};

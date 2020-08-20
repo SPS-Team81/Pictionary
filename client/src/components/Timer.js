@@ -11,12 +11,6 @@ export default class Clock extends React.Component {
         };
     }
 
-
-    // var startDate = new Date();
-    // // Do your operations
-    // var endDate   = new Date();
-    // var seconds = (endDate.getTime() - startDate.getTime()) / 1000;
-
     componentDidMount() {
         socket.on('newRoundUpdate', (data) => {
             let dataJson = JSON.parse(data);
@@ -38,9 +32,6 @@ export default class Clock extends React.Component {
     }
 
     tick() {
-        // if(timeRemaining == 0) {
-        //     axios.get()
-        // }  
         this.setState({
             timeRemaining: this.calculateTime(),
         })
