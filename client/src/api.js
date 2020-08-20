@@ -23,4 +23,4 @@ socket.on('joinedRoom',(data) => {
 
 
 
-export {joinPlayerInGame,socket};
+export {joinPlayerInGame,socket,_roomName,_playerName};
