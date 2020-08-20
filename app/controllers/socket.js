@@ -67,6 +67,11 @@ const startSocketConnection = function(server) {
 			}
 		}); 
 
+		socket.on('drawEvent',(data) => {
+			// dataJson = JSON.parse(data);
+			io.sockets.in(data.roomName).emit('drawReceive',data);
+		});
+
 	});
 	
 }

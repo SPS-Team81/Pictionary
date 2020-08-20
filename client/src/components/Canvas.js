@@ -1,23 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './canvas.css'
+import {socket,_roomName} from '../api';
 
 function Canvas() {
     let mode = "pen";
     let drawing = false;
-    const current = { x: 0, y: 0 };
+    const current = { x: 0, y: 0 , color: "#000000"};
     const canvasRef = useRef(null);
     const [sliderValue, changeSlider] = useState(50);
 
-    // useEffect(() => {
-    //     if (io) {
-    //         io.on('S_C_DRAW', onDrawingEvent);
-    //         io.on('GE_NEW_ROUND', clearCanvas);
-    //     }
-    //     return () => {
-    //         io.off('S_C_DRAW', onDrawingEvent);
-    //         io.off('GE_NEW_ROUND', clearCanvas);
-    //     };
-    // }, [io]);
+    useEffect(() => {
+        socket.on('drawReceive',(data) => {
+            // var data = JSON.parse(tempData); 
+            // console.log(data.x0);
+			// console.log(data.y0);
+			// console.log(data.x1);
+			// console.log(data.y1);
+			// console.log(data.color);
+            onDrawingEvent(data);
+        });
+    });
 
     useEffect(() => {
         onResize();
@@ -39,19 +41,22 @@ function Canvas() {
         context.stroke();
         context.closePath();
 
-        // if (!emit) {
-        //     return;
-        // }
-        // var w = canvasRef.current.width;
-        // var h = canvasRef.current.height;
+        if (!emit) {
+            return;
+        }
+        var w = canvasRef.current.width;
+        var h = canvasRef.current.height;
 
-        // io.emit('C_S_DRAW', {
-        //     x0: x0 / w,
-        //     y0: y0 / h,
-        //     x1: x1 / w,
-        //     y1: y1 / h,
-        //     color: color
-        // });
+        // console.log(color);
+        var data = {
+            x0: x0 / w,
+            y0: y0 / h,
+            x1: x1 / w,
+            y1: y1 / h,
+            color: color,
+            roomName: _roomName
+        }
+        socket.emit('drawEvent', data);
     }
 
     function erase(e) {
@@ -127,7 +132,7 @@ function Canvas() {
     function onDrawingEvent(data) {
         var w = canvasRef.current.width;
         var h = canvasRef.current.height;
-        this.drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color);
+        drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color,false);
     }
 
     const clearCanvas = (roundNumber, totalRounds) => {
