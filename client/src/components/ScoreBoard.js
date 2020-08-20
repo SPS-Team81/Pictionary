@@ -1,13 +1,25 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@material-ui/core';
+import {socket} from '../api.js';
+
+
 
 export default class ScoreBoard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            playersList: props.playersList,
+            playersList: [],
         };
         // console.log('props: '+props.playersList.length)
+    }
+
+    componentDidMount() {
+        socket.on('playerChangeUpdate',(data) => {
+            let dataJson = JSON.parse(data);
+            this.setState({
+                playersList: dataJson.playersList,
+            });
+        });
     }
 
     render() {

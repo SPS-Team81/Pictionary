@@ -5,6 +5,7 @@ class Player {
         this.isAdmin = isAdmin;
         this.points = 0;
         this.scoketId = 0;
+        this.guessStatus = false;
     }
 }
 

@@ -23,28 +23,27 @@ const getGame = function(roomName) {
 const sendData = function(roomName) {
     var room = RoomManager.getRoom(roomName);
 	var game = getGame(roomName)
-	let tempPlayerList = [];
+	var tempPlayerList = [];
 	for (i = 0;i<room.players.length;i++) {
-		let isDrawing = false;
+		var isDrawing = false;
 		if (i == game.currentPlayerDrawingIndex) {
 			isDrawing = true;
 		}
-		let player = {
+		var player = {
 			username: room.players[i].playerName,
 			points: room.players[i].points,
-			socketId: room.players[i].socketId,
 			drawing: isDrawing,
-			guessed: game.guessStatus[i],
+			guessed: room.players[i].guessStatus,
 		};
 		tempPlayerList.push(player);
     }
-	let data = {
-		playerList: tempPlayerList,
+	var data = {
+		playersList: tempPlayerList,
 		roundsPlayed: game.roundsPlayed,
 		toatlRounds: game.getTotalRounds(),
 		roundDuration: game.getRoundDuration(),
 		currentWord: game.getCurrentWord(),
-    };
+	};
 	return JSON.stringify(data);
 }
 

@@ -9,9 +9,9 @@ class Game {
         this.currentPlayerDrawingIndex = 0;
         this.unusedWords = [];
         this.currentWord = '';
-        this.guessStatus = new Array(room.players.length);
 
         this.getWords();
+        // this.setNewWord();
     }
 
     getWords() {
@@ -19,12 +19,13 @@ class Game {
             text = text+"";
             this.unusedWords = text.split("\n")
         });
+        // console.log(this.unusedWords);
     }
 
     resetGame() {
         for (index = 0; index < this.room.players.length; index++) {
             this.room.players[index].points = 0;
-            this.guessStatus[index] = false;
+            this.room.players[index].guessStatus = 0;
         }
         this.roundsPlayed = 0;
         this.currentPlayerDrawingIndex = 0;
@@ -62,7 +63,7 @@ class Game {
             }
         }
         for (index = 0; index < this.room.players.length; index++) {
-            this.guessStatus[i] = false;
+            this.this.room.players[i].guessStatus = false;
         }
         this.setNewWord();
     }

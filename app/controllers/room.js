@@ -4,7 +4,8 @@ const Player = require('../models/player')
 var rooms = [];
 
 const getRoomName = function () {
-    return Array(7).fill(0).map(x => Math.random().toString(36).charAt(2)).join('');
+    return "tgx1nxu";
+    // return Array(7).fill(0).map(x => Math.random().toString(36).charAt(2)).join('');
 }
 
 const getRoom = function (roomName) {
