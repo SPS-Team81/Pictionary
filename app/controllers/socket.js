@@ -19,7 +19,7 @@ const startSocketConnection = function(server) {
 				
 				var room = roomManager.createRoom();
 				
-				console.log("Created a new room named: "+room.roomName);
+				console.log("Created a new room named "+room.roomName);
 				
 				const player = playerManager.createPlayer(roomJson.playerName,true,socket.id);
 				
@@ -30,7 +30,7 @@ const startSocketConnection = function(server) {
 				status = 200;
 				newRoomName = room.roomName
 			} else {
-				console.log("New PLayer joining room: "+roomJson.roomName);
+				console.log("New PLayer joining room "+roomJson.roomName);
 				
 				var player = playerManager.createPlayer(roomJson.playerName,false,socket.id);
 				
@@ -57,9 +57,11 @@ const startSocketConnection = function(server) {
 			for(roomName in rooms) {
 				const room = roomManager.getRoom(roomName);
 				if(typeof(room)!="undefined") {
-					console.log("player leaving room: "+roomName);
+					console.log("player leaving room "+roomName);
+					if(room.players.length==1) {
+						gameManager.deleteGame(room.roomName);
+					}
 					roomManager.deletePlayer(room,socket.id);
-					gameManager.deleteGame(room.roomName);
 					io.sockets.in(roomName).emit('playerChangeUpdate',gameManager.sendData(roomName));
 				}	
 			}
