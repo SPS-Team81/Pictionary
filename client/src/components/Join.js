@@ -4,7 +4,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { _roomName, _playerName, joinPlayerInGame } from '../api';
 
@@ -52,25 +52,20 @@ export default class Join extends React.Component {
     handleCreateRoom() {
         console.log(this.state.username + this.state.numberOfRounds + this.state.timeToGuess);
         var data = {
-            playerName: this.state.playerName,
-            roomName: this.state.playerName,
-            isAdmin: true,
+            playerName: this.state.username,
+            isAdmin: "true",
             roundDuration: this.state.numberOfRounds,
             timeToGuess: this.state.timeToGuess,
         }
-        _playerName = this.state.username;
-        joinPlayerInGame(JSON.stringify(data));
+        joinPlayerInGame(data);
     }
 
     handleJoinRoom() {
         console.log(this.state.username + this.state.roomName);
-        _playerName = this.state.username;
-        _roomName = this.state.roomName;
         var data = {
-            playerName: this.state.playerName,
-            roomName: this.state.playerName,
+            playerName: this.state.username,
             isAdmin: false,
-            roomName: _roomName,
+            roomName: this.state.roomName,
         }
         joinPlayerInGame(JSON.stringify(data));
     }
@@ -82,9 +77,9 @@ export default class Join extends React.Component {
 
                 <Grid item md={3} lg={3}>
                     <div className="paper">
-                        <Avatar className="avatar">
+                        {/* <Avatar className="avatar">
                             <LockOutlinedIcon />
-                        </Avatar>
+                        </Avatar> */}
                         <Typography component="h1" variant="h5">
                             Create a New Room
                         </Typography>
@@ -138,9 +133,9 @@ export default class Join extends React.Component {
 
                 <Grid item md={3} lg={3}>
                     <div className="paper" style={{ paddingBottom: 135 }}>
-                        <Avatar className="avatar">
+                        {/* <Avatar className="avatar">
                             <LockOutlinedIcon />
-                        </Avatar>
+                        </Avatar> */}
                         <Typography component="h1" variant="h5">
                             Join a Room
                         </Typography>

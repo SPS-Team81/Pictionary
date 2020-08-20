@@ -17,9 +17,11 @@ socket.on('joinedRoom',(data) => {
     console.log(data);
 });
 
-socket.on('newJoinee',(data) => {
+socket.on('newJoinee',(tempData) => {
+    var data  = JSON.parse(tempData);
     if(data.status==200) {
         _roomName = data.roomName;
+        _playerName = data.playerName;
         console.log('Player Joined');
     } else {
         _roomName = '';
