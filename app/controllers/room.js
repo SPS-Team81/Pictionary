@@ -4,8 +4,7 @@ const Player = require('../models/player')
 var rooms = [];
 
 const getRoomName = function () {
-    return "tgx1nxu";
-    // return Array(7).fill(0).map(x => Math.random().toString(36).charAt(2)).join('');
+    return Array(7).fill(0).map(x => Math.random().toString(36).charAt(2)).join('');
 }
 
 const getRoom = function (roomName) {
@@ -13,13 +12,14 @@ const getRoom = function (roomName) {
     return room;
 }
 
-const getPlayer = function (roomName, playerName) {
+const getPlayer = function (roomName, socketId) {
 	var room = getRoom(roomName);
+    var player;
     if (typeof(room) != "undefined") {
-        var player = room.players.find(player => player.playerName == playerName);
+        player = room.players.find(player => player.getSocketId() == socketId);
         return player;
     }
-    return undefined;
+    return player;
 }
 
 const createRoom = function () {
@@ -38,11 +38,34 @@ const addPlayerToRoom = function (roomName, player) {
     return 404;
 }
 
-const setSocketId = function (roomName, playerName, socketId) {
-    let player = getPlayer(roomName, playerName);
-    if (typeof (player) != "undefined") {
-        player.sockerId = socketId;
+const findIndex = function(room) {
+    for(var i = 0;i<rooms.length;i++) {
+        if(rooms[i].roomName==room.roomName) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+const removeRoom  = function(room) {
+    var index = findIndex(room);
+    if(index == -1) {
+        return;
+    }
+    for(var i = index;i<rooms.length - 1;i++) {
+        rooms[i] = rooms[i+1];
+    }
+    rooms.pop();
+}
+
+const deletePlayer = function(room,socketId) {
+    var player = getPlayer(room.roomName,socketId);
+    if (typeof(player) != "undefined") {
+        room.removePlayer(player);
+        if(room.players.length==0) {
+            removeRoom(room);
+        }
     }
 }
 
-module.exports = {createRoom, getRoom, getPlayer, addPlayerToRoom, setSocketId}
+module.exports = {createRoom, getRoom, getPlayer, addPlayerToRoom, deletePlayer}

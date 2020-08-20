@@ -4,7 +4,7 @@ import Canvas from './Canvas';
 import ScoreBoard from './ScoreBoard';
 import Timer from './Timer';
 import ChatBox from './ChatBox';
-import {joinPlayerInGame} from '../api';
+// import {joinPlayerInGame} from '../api';
 
 function setGameData(data) {
     this.setState({
@@ -16,7 +16,7 @@ export default class Game extends React.Component {
     }
 
     componentDidMount() {
-        joinPlayerInGame();
+        // joinPlayerInGame();
     }
 
     render() {
