@@ -1,6 +1,7 @@
 let roomManager = require('./room')
 let gameManager = require('./game')
-let playerManager = require('./player')
+let playerManager = require('./player');
+const Player = require('../models/player');
 
 const startSocketConnection = function(server) {
 	let io = require('socket.io')(server);
@@ -10,26 +11,32 @@ const startSocketConnection = function(server) {
 	
 		socket.on('join', function(room) {
 			var roomJson = JSON.parse(room);
-			// console.log(room);
-			console.log(roomJson);
 			var status;
 			var newRoomName = "";
 			var playerName = roomJson.playerName;
-			if(roomJson.isAdmin==="true") {
+			if(roomJson.isAdmin===true) {
 				console.log("Creating a room.");
+				
 				var room = roomManager.createRoom();
+				
 				console.log("Created a new room named: "+room.roomName);
-				var player = playerManager.createPlayer(roomJson.playerName,true);
+				
+				const player = playerManager.createPlayer(roomJson.playerName,true,socket.id);
+				
 				roomManager.addPlayerToRoom(room.roomName,player);
+				
 				var game = gameManager.createGame(room,parseInt(roomJson.totalRounds),parseInt(roomJson.timeToGuess));
+				
 				status = 200;
 				newRoomName = room.roomName
 			} else {
-				var player = playerManager.createPlayer(roomJson.playerName,true);
+				console.log("New PLayer joining room: "+roomJson.roomName);
+				
+				var player = playerManager.createPlayer(roomJson.playerName,false,socket.id);
+				
 				status = roomManager.addPlayerToRoom(roomJson.roomName, player);
 				if(status==200) {
-					roomManager.setSocketId(roomJson.roomName, roomJson.playerName, socket.id);
-					newRoomName = room.roomName;
+					newRoomName = roomJson.roomName;
 				}
 			}
 			data = {
@@ -44,6 +51,18 @@ const startSocketConnection = function(server) {
 				io.sockets.in(newRoomName).emit('playerChangeUpdate',gameManager.sendData(newRoomName));
 			}
 		});
+
+		socket.on('disconnecting',() => {
+			const rooms = socket.rooms;
+			for(roomName in rooms) {
+				const room = roomManager.getRoom(roomName);
+				if(typeof(room)!="undefined") {
+					console.log("player leaving room: "+roomName);
+					roomManager.deletePlayer(room,socket.id);
+					io.sockets.in(roomName).emit('playerChangeUpdate',gameManager.sendData(roomName));
+				}	
+			}
+		}); 
 
 	});
 	

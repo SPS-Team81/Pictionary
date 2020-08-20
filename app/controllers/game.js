@@ -21,7 +21,10 @@ const getGame = function(roomName) {
 }
 
 const sendData = function(roomName) {
-    var room = RoomManager.getRoom(roomName);
+	var room = RoomManager.getRoom(roomName);
+	if(typeof(room)=="undefined") {
+		return;
+	}
 	var game = getGame(roomName)
 	var tempPlayerList = [];
 	for (i = 0;i<room.players.length;i++) {

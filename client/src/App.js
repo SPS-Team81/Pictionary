@@ -1,7 +1,7 @@
 import React from 'react';
 import Game from './components/Game';
 import Join from './components/Join';
-import { socket } from './api'
+import { socket,_roomName } from './api'
 
 export default class App extends React.Component {
     constructor(props) {
@@ -27,7 +27,7 @@ export default class App extends React.Component {
     }
 
     render() {
-        if (this.state.roomName == "") {
+        if (this.state.roomName === "") {
             return (
                 <Join />
             );
