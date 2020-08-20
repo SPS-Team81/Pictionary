@@ -5,7 +5,8 @@
 }
 
 .messages {
-    height: 40vw;
+    height: 38vw;
+    padding: 1vw;
 }
 
 .message-box {
@@ -29,4 +30,37 @@
     border-radius: 50%;
     background-color: rgb(104, 104, 223);
     text-align: center;
+}
+
+.own-message, .other-message {
+    width: 15vw;
+    padding-top: 0vw;
+    padding-bottom: 0vw;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
+    border-style: solid;
+    border-radius: 2%;
+    margin-top: 0.2vw;
+    margin-bottom: 0.2vw;
+}
+
+.own-message {
+    float: right;
+    background-color: rgb(146, 146, 233);
+    border-color: rgb(146, 146, 233);
+}
+
+.other-message {
+    background-color: lightgray;
+    border-color: lightgray;
+}
+
+.name {
+    margin-top: 0.3vw;
+    margin-bottom: 0vw;
+}
+
+.message {
+    margin-top: 0.3vw;
+    margin-bottom: 0.2vw;
 }
