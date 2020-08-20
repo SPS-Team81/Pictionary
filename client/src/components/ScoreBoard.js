@@ -23,8 +23,6 @@ export default class ScoreBoard extends React.Component {
     }
 
     render() {
-        console.log("Place 2");
-        // console.log(this.state.playersList)
         return (
             <div style={{ padding: 10 }}>
                 <h3 style={{ marginTop: 10, backgroundColor: 'lightgray', padding: 8, textAlign: "center" }}>

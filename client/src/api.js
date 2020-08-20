@@ -22,12 +22,5 @@ socket.on('joinedRoom',(data) => {
 });
 
 
-function queryGameData(roomName,cb) {
-    socket.emit('dataQuery',roomName);
-    socket.on('sendData',data => {
-        let dataJson = JSON.parse(data);
-        cb(null,dataJson)
-    }); 
-}
 
-export {queryGameData,joinPlayerInGame,socket};
+export {joinPlayerInGame,socket};
