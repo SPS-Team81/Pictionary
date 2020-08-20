@@ -9,12 +9,16 @@ const startSocketConnection = function(server) {
 	io.on('connection', (socket) => {
 	
 		socket.on('join', function(room) {
-			let roomJson = JSON.parse(room);
-			// console.log(roomJson);
+			var roomJson = JSON.parse(room);
+			// console.log(room);
+			console.log(roomJson);
 			var status;
-			var nemRoomName = "";
-			if(roomJson.isAdmin) {
+			var newRoomName = "";
+			var playerName = roomJson.playerName;
+			if(roomJson.isAdmin==="true") {
+				console.log("Creating a room.");
 				var room = roomManager.createRoom();
+				console.log("Created a new room named: "+room.roomName);
 				var player = playerManager.createPlayer(roomJson.playerName,true);
 				roomManager.addPlayerToRoom(room.roomName,player);
 				var game = gameManager.createGame(room,parseInt(roomJson.totalRounds),parseInt(roomJson.timeToGuess));
@@ -30,13 +34,14 @@ const startSocketConnection = function(server) {
 			}
 			data = {
 				roomName: newRoomName,
+				playerName: playerName,
 				status: status,
 			};
 			socket.emit('newJoinee',JSON.stringify(data));
 			if(status==200) {
-				socket.join(roomName);
-				io.sockets.in(roomName).emit('joinedRoom', playerName + " has joined");
-				io.sockets.in(roomName).emit('playerChangeUpdate',gameManager.sendData(roomName));
+				socket.join(newRoomName);
+				io.sockets.in(newRoomName).emit('joinedRoom', playerName + " has joined");
+				io.sockets.in(newRoomName).emit('playerChangeUpdate',gameManager.sendData(newRoomName));
 			}
 		});
 
