@@ -1,0 +1,32 @@
+.chat-box {
+    height: 46vw;
+    border-style: solid;
+    margin-right: 1vw;
+}
+
+.messages {
+    height: 40vw;
+}
+
+.message-box {
+    padding: 1vw;
+}
+
+.input-box {
+    width: 85%;
+    margin: 1vw;
+    color: "gray";
+}
+
+.send-button {
+    margin-top: 1vw;
+    margin-left: 0.4vw;
+    padding: 0.5vw 0.25vw 0 0.25vw;
+    height: 2vw;
+    width: 2vw;
+    cursor: pointer;
+    border-style: solid;
+    border-radius: 50%;
+    background-color: rgb(104, 104, 223);
+    text-align: center;
+}
