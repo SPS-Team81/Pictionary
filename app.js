@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/createRoom', function (req, res) {
-	let room = roomManager.createRoom(req.body.noOfRounds, req.body.timeToGuess);
+	let room = roomManager.createRoom();
 	let player = playerManager.createPlayer(req.body.playerName, true);
 	roomManager.addPlayerToRoom(room.roomName, player);
 	let game = gameManager.createGame(room, parseInt(req.body.timeToGuess), parseInt(req.body.noOfRounds));

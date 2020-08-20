@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { _roomName, _playerName } from '../api';
+import { _roomName, _playerName, joinPlayerInGame } from '../api';
 
 export default class Join extends React.Component {
     constructor() {
@@ -51,13 +51,28 @@ export default class Join extends React.Component {
 
     handleCreateRoom() {
         console.log(this.state.username + this.state.numberOfRounds + this.state.timeToGuess);
+        var data = {
+            playerName: this.state.playerName,
+            roomName: this.state.playerName,
+            isAdmin: true,
+            roundDuration: this.state.numberOfRounds,
+            timeToGuess: this.state.timeToGuess,
+        }
         _playerName = this.state.username;
+        joinPlayerInGame(JSON.stringify(data));
     }
 
     handleJoinRoom() {
         console.log(this.state.username + this.state.roomName);
         _playerName = this.state.username;
         _roomName = this.state.roomName;
+        var data = {
+            playerName: this.state.playerName,
+            roomName: this.state.playerName,
+            isAdmin: false,
+            roomName: _roomName,
+        }
+        joinPlayerInGame(JSON.stringify(data));
     }
 
     render() {

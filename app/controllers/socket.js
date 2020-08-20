@@ -10,24 +10,34 @@ const startSocketConnection = function(server) {
 	
 		socket.on('join', function(room) {
 			let roomJson = JSON.parse(room);
-			console.log(roomJson);
-			let roomName = roomJson.roomName;
-			let playerName = roomJson.playerName;
-
-			if(!roomJson.isAdmin) {
-				var player = playerManager.createPlayer(playerName, false);
-				roomManager.addPlayerToRoom(roomName, player);
+			// console.log(roomJson);
+			var status;
+			var nemRoomName = "";
+			if(roomJson.isAdmin) {
+				var room = roomManager.createRoom();
+				var player = playerManager.createPlayer(roomJson.playerName,true);
+				roomManager.addPlayerToRoom(room.roomName,player);
+				var game = gameManager.createGame(room,parseInt(roomJson.totalRounds),parseInt(roomJson.timeToGuess));
+				status = 200;
+				newRoomName = room.roomName
+			} else {
+				var player = playerManager.createPlayer(roomJson.playerName,true);
+				status = roomManager.addPlayerToRoom(roomJson.roomName, player);
+				if(status==200) {
+					roomManager.setSocketId(roomJson.roomName, roomJson.playerName, socket.id);
+					newRoomName = room.roomName;
+				}
 			}
-			
-			roomManager.setSocketId(roomName, playerName, socket.id);
-			socket.join(roomName);
-			io.sockets.in(roomName).emit('joinedRoom', playerName + " has joined");
-			io.sockets.in(roomName).emit('playerChangeUpdate',gameManager.sendData(roomName));
-		});
-
-		socket.on('dataQuery', function(roomName) {
-			console.log('Qwery for room:'+roomName);
-			socket.emit('sendData',gameManager.sendData(roomName))
+			data = {
+				roomName: newRoomName,
+				status: status,
+			};
+			socket.emit('newJoinee',JSON.stringify(data));
+			if(status==200) {
+				socket.join(roomName);
+				io.sockets.in(roomName).emit('joinedRoom', playerName + " has joined");
+				io.sockets.in(roomName).emit('playerChangeUpdate',gameManager.sendData(roomName));
+			}
 		});
 
 	});
