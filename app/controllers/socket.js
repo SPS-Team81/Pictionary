@@ -59,6 +59,7 @@ const startSocketConnection = function(server) {
 				if(typeof(room)!="undefined") {
 					console.log("player leaving room: "+roomName);
 					roomManager.deletePlayer(room,socket.id);
+					gameManager.deleteGame(room.roomName);
 					io.sockets.in(roomName).emit('playerChangeUpdate',gameManager.sendData(roomName));
 				}	
 			}

@@ -20,6 +20,26 @@ const getGame = function(roomName) {
     return null;
 }
 
+const findIndex = function(roomName) {
+    for(var i = 0;i<games.length;i++) {
+        if(games[i].room.roomName==roomName) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+const deleteGame = function(roomName) {
+	var index = findIndex(roomName);
+    if(index == -1) {
+        return;
+    }
+    for(var i = index;i<games.length - 1;i++) {
+        games[i] = games[i+1];
+    }
+	games.pop();
+}
+
 const sendData = function(roomName) {
 	var room = roomManager.getRoom(roomName);
 	if(typeof(room)=="undefined") {
@@ -50,4 +70,4 @@ const sendData = function(roomName) {
 	return JSON.stringify(data);
 }
 
-module.exports = { getGame, createGame, sendData}
+module.exports = { getGame, createGame, sendData, deleteGame}
