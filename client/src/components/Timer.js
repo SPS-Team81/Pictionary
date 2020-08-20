@@ -5,11 +5,20 @@ import { socket } from '../api.js';
 export default class Clock extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { timeRemaining: 0 };
+        this.state = { 
+            timestampToEnd: new Date(),
+            timeremaining: 0, 
+        };
     }
 
+
+    // var startDate = new Date();
+    // // Do your operations
+    // var endDate   = new Date();
+    // var seconds = (endDate.getTime() - startDate.getTime()) / 1000;
+
     componentDidMount() {
-        socket.on('playerChangeUpdate', (data) => {
+        socket.on('newRoundUpdate', (data) => {
             let dataJson = JSON.parse(data);
             this.setState({
                 timeRemaining: dataJson.roundDuration,
@@ -21,13 +30,20 @@ export default class Clock extends React.Component {
         );
     }
 
+    calculateTime() {
+        var currentTime = new Date();
+        var endTime = new Date(this.state.timestampToEnd);
+        var seconds = (currentTime.getTime() - endTime.getTime()) / 1000;
+        return parseInt(seconds);
+    }
+
     tick() {
         // if(timeRemaining == 0) {
         //     axios.get()
         // }  
-        this.setState(({ timeRemaining }) => ({
-            timeRemaining: timeRemaining - 1
-        }));
+        this.setState({
+            timeRemaining: this.calculateTime(),
+        })
     }
 
     render() {
