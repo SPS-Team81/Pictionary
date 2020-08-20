@@ -32,12 +32,23 @@ function Canvas() {
 
     function drawLine(x0, y0, x1, y1, color, emit) {
         const context = canvasRef.current.getContext('2d');
-        context.globalCompositeOperation = "source-over";
+        // context.globalCompositeOperation = "source-over";
         context.beginPath();
         context.moveTo(x0, y0);
         context.lineTo(x1, y1);
-        context.strokeStyle = color;
-        context.lineWidth = sliderValue / 10;
+
+        if (mode === "pen") {
+            context.strokeStyle = "#000";
+        } else {
+            context.strokeStyle = "#FFF"
+        }
+
+        if (mode === "pen") {
+            context.lineWidth = sliderValue / 10;
+        } else {
+            context.lineWidth = sliderValue;
+        }
+
         context.stroke();
         context.closePath();
 
@@ -59,12 +70,12 @@ function Canvas() {
         socket.emit('drawEvent', data);
     }
 
-    function erase(e) {
-        const context = canvasRef.current.getContext('2d');
-        context.globalCompositeOperation = "destination-out";
-        context.arc(current.x, current.y, 8, 0, Math.PI * 2, false);
-        context.fill();
-    }
+    // function erase(e) {
+    //     const context = canvasRef.current.getContext('2d');
+    //     context.globalCompositeOperation = "destination-out";
+    //     context.arc(current.x, current.y, 8, 0, Math.PI * 2, false);
+    //     context.fill();
+    // }
 
     function obtainPosition(e) {
         var rect = e.target.getBoundingClientRect();
@@ -110,11 +121,7 @@ function Canvas() {
         current.x = pos[0];
         current.y = pos[1];
 
-        if (mode == "pen") {
-            drawLine(lastX, lastY, current.x, current.y, current.color, true);
-        } else {
-            erase(e);
-        }
+        drawLine(lastX, lastY, current.x, current.y, current.color, true);
     }
 
     function throttle(callback, delay) {
