@@ -7,7 +7,7 @@ export default class ChatBox extends React.Component {
     constructor() {
         super();
         this.state = {
-            chatList: [["indu", "hello"]],
+            chatList: [["player_test", "hello"]],
             message: "",
         }
         this.setMessage = this.setMessage.bind(this);
