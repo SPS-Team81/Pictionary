@@ -5,7 +5,6 @@ import ScoreBoard from './ScoreBoard';
 import Timer from './Timer';
 import ChatBox from './ChatBox';
 import {joinPlayerInGame} from '../api';
-import CanvasDraw from 'react-canvas-draw';
 
 function setGameData(data) {
     this.setState({
