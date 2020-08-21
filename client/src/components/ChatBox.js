@@ -10,8 +10,21 @@ export default class ChatBox extends React.Component {
             chatList: [["player_test", "hello", "socketid"]],
             message: "",
         }
+        this.messagesEndRef = React.createRef();
         this.setMessage = this.setMessage.bind(this);
         this.handleSend = this.handleSend.bind(this);
+    }
+
+    componentDidMount() {
+        this.scrollToBottom();
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
+
+    scrollToBottom = () => {
+        this.messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
 
     setMessage(event) {
@@ -51,6 +64,7 @@ export default class ChatBox extends React.Component {
 
                     }, this)}
                     </div>
+                    <div ref={this.messagesEndRef} />
                 </div>
 
                 <div className="message-box">
