@@ -10,9 +10,10 @@ export default class ChatBox extends React.Component {
             chatList: [],
             message: "",
         }
-        this.messagesEndRef = React.createRef();
+        this.messagesRef = React.createRef();
         this.setMessage = this.setMessage.bind(this);
         this.handleSend = this.handleSend.bind(this);
+        this.checkEnter = this.checkEnter.bind(this);
     }
 
     appendMessage(list,entry) {
@@ -35,7 +36,7 @@ export default class ChatBox extends React.Component {
     }
 
     scrollToBottom = () => {
-        this.messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        this.messagesRef.current.scrollTop = this.messagesRef.current.scrollHeight;
     }
 
 
@@ -58,10 +59,16 @@ export default class ChatBox extends React.Component {
         })
     }
 
+    checkEnter(event) {
+        if (event.keyCode === 13) {
+            this.handleSend();
+        }
+    }
+
     render() {
         return (
             <div className="chat-box">
-                <div className="messages">
+                <div className="messages" ref={this.messagesRef}>
                     <div>{this.state.chatList.map(function (item, key) {
                         if (item[2] === socket.id) {
                             return (
@@ -81,7 +88,6 @@ export default class ChatBox extends React.Component {
 
                     }, this)}
                     </div>
-                    <div ref={this.messagesEndRef} />
                 </div>
 
                 <div className="message-box">
@@ -94,6 +100,7 @@ export default class ChatBox extends React.Component {
                         name="messageBox"
                         value={this.state.message}
                         onChange={this.setMessage}
+                        onKeyDown={this.checkEnter}
                     />
 
                     <i className="material-icons send-button" onClick={this.handleSend}>send</i>
