@@ -2,6 +2,7 @@ let roomManager = require('./room')
 let gameManager = require('./game')
 let playerManager = require('./player');
 const Player = require('../models/player');
+const player = require('./player');
 
 const startSocketConnection = function(server) {
 	let io = require('socket.io')(server);
@@ -70,6 +71,14 @@ const startSocketConnection = function(server) {
 		socket.on('drawEvent',(data) => {
 			// dataJson = JSON.parse(data);
 			socket.to(data.roomName).emit('drawReceive',data);
+		});
+
+		socket.on('sendMessage',(data) => {
+			var player = roomManager.getPlayer(data.roomName,socket.id);
+			out = {
+				data = [player.playerName,data.message,socket.id],	
+			}
+			socket.to(data.roomName).emit('revieveMessage',data);
 		});
 
 	});

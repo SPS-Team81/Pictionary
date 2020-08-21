@@ -36,18 +36,8 @@ function Canvas() {
         context.beginPath();
         context.moveTo(x0, y0);
         context.lineTo(x1, y1);
-
-        if (mode === "pen") {
-            context.strokeStyle = "#000";
-        } else {
-            context.strokeStyle = "#FFF"
-        }
-
-        if (mode === "pen") {
-            context.lineWidth = sliderValue / 10;
-        } else {
-            context.lineWidth = sliderValue;
-        }
+        context.strokeStyle = current.color;
+        context.lineWidth = sliderValue / 10;
 
         context.stroke();
         context.closePath();
@@ -153,16 +143,18 @@ function Canvas() {
 
     function selectBrush() {
         mode = "pen";
+        current.color = "#000000";
     }
 
     function selectEraser() {
-        mode = "eraser";
+        mode = "pen";
+        current.color = "#FFFFFF";
     }
 
     function onClearCanvas() {
         const context = canvasRef.current.getContext('2d');
         context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-        mode = "pen";
+        selectBrush();
     }
 
     return (
