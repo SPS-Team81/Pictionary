@@ -1,13 +1,13 @@
 import React from 'react';
 import './chatbox.css'
 import { TextField } from '@material-ui/core';
-import { _playerName } from '../api'
+import { _playerName, socket } from '../api'
 
 export default class ChatBox extends React.Component {
     constructor() {
         super();
         this.state = {
-            chatList: [["player_test", "hello"]],
+            chatList: [["player_test", "hello", "socketid"]],
             message: "",
         }
         this.setMessage = this.setMessage.bind(this);
@@ -21,7 +21,7 @@ export default class ChatBox extends React.Component {
     }
 
     handleSend() {
-        var currEntry = [_playerName, this.state.message];
+        var currEntry = [_playerName, this.state.message, socket.id];
         this.state.chatList.push(currEntry);
         this.setState({
             message: "",
@@ -33,7 +33,7 @@ export default class ChatBox extends React.Component {
             <div className="chat-box">
                 <div className="messages">
                     <div>{this.state.chatList.map(function (item, key) {
-                        if (item[0] === _playerName) {
+                        if (item[2] === socket.id) {
                             return (
                                 <div className="own-message">
                                     <p className="name"><b>You</b></p>
