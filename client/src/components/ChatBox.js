@@ -10,6 +10,7 @@ export default class ChatBox extends React.Component {
             chatList: [],
             message: "",
         }
+        this.messagesEndRef = React.createRef();
         this.setMessage = this.setMessage.bind(this);
         this.handleSend = this.handleSend.bind(this);
     }
@@ -20,6 +21,7 @@ export default class ChatBox extends React.Component {
     }
 
     componentDidMount() {
+        this.scrollToBottom();
         socket.on('revieveMessage',(data) => {
             console.log('Message :'+ data.data);
             this.setState({
@@ -27,6 +29,15 @@ export default class ChatBox extends React.Component {
             });
         });
     }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
+
+    scrollToBottom = () => {
+        this.messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
 
     setMessage(event) {
         this.setState({
@@ -70,6 +81,7 @@ export default class ChatBox extends React.Component {
 
                     }, this)}
                     </div>
+                    <div ref={this.messagesEndRef} />
                 </div>
 
                 <div className="message-box">
