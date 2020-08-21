@@ -76,9 +76,9 @@ const startSocketConnection = function(server) {
 		socket.on('sendMessage',(data) => {
 			var player = roomManager.getPlayer(data.roomName,socket.id);
 			out = {
-				data = [player.playerName,data.message,socket.id],	
+				data: [player.playerName,data.message,socket.id],	
 			}
-			socket.to(data.roomName).emit('revieveMessage',data);
+			io.sockets.in(data.roomName).emit('revieveMessage',out);
 		});
 
 	});

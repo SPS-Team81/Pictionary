@@ -1,17 +1,31 @@
 import React from 'react';
 import './chatbox.css'
 import { TextField } from '@material-ui/core';
-import { _playerName, socket } from '../api'
+import { _playerName, socket, _roomName } from '../api'
 
 export default class ChatBox extends React.Component {
     constructor() {
         super();
         this.state = {
-            chatList: [["player_test", "hello", "socketid"]],
+            chatList: [],
             message: "",
         }
         this.setMessage = this.setMessage.bind(this);
         this.handleSend = this.handleSend.bind(this);
+    }
+
+    appendMessage(list,entry) {
+        list.push(entry);
+        return list;
+    }
+
+    componentDidMount() {
+        socket.on('revieveMessage',(data) => {
+            console.log('Message :'+ data.data);
+            this.setState({
+                chatList: this.appendMessage(this.state.chatList,data.data),
+            });
+        });
     }
 
     setMessage(event) {
@@ -21,8 +35,13 @@ export default class ChatBox extends React.Component {
     }
 
     handleSend() {
-        var currEntry = [_playerName, this.state.message, socket.id];
-        this.state.chatList.push(currEntry);
+        
+        var  data = {
+            roomName: _roomName,
+            message: this.state.message,
+        };
+        socket.emit('sendMessage',data);
+
         this.setState({
             message: "",
         })
