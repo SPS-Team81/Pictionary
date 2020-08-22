@@ -3,6 +3,8 @@ let gameManager = require('./game')
 let playerManager = require('./player');
 const Player = require('../models/player');
 const player = require('./player');
+const game = require('./game');
+const { response } = require('express');
 
 const startSocketConnection = function(server) {
 	let io = require('socket.io')(server);
@@ -79,6 +81,15 @@ const startSocketConnection = function(server) {
 				data: [player.playerName,data.message,socket.id],	
 			}
 			io.sockets.in(data.roomName).emit('revieveMessage',out);
+		});
+
+		socket.on('nextTurn',(data) => {
+			game.nextTurn();
+			gameManager.startNextTurn(data,io);
+		});
+
+		socket.on('startGame',(data) => {
+			gameManager.startNextTurn(data,io);
 		});
 
 	});

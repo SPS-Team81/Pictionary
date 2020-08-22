@@ -40,6 +40,21 @@ const deleteGame = function(roomName) {
 	games.pop();
 }
 
+const getPlayerInfo = function(game,index) {
+	var isDrawing = false;
+	if (index == game.getCurrentPlayerDrawingIndex()) {
+		isDrawing = true;
+	}
+	var player = {
+		username: game.room.players[i].playerName,
+		points: game.room.players[i].points,
+		drawing: isDrawing,
+		guessed: game.room.players[i].guessStatus,
+		gain: game.room.players[i].gain,
+	};
+	return player;
+}
+
 const sendData = function(roomName) {
 	var room = roomManager.getRoom(roomName);
 	if(typeof(room)=="undefined") {
@@ -48,27 +63,40 @@ const sendData = function(roomName) {
 	var game = getGame(roomName)
 	var tempPlayerList = [];
 	for (i = 0;i<room.players.length;i++) {
-		var isDrawing = false;
-		if (i == game.getCurrenPlayerDrawingIndex()) {
-			isDrawing = true;
-		}
-		var player = {
-			username: room.players[i].playerName,
-			points: room.players[i].points,
-			drawing: isDrawing,
-			guessed: room.players[i].guessStatus,
-			gain: room.players[i].gain,
-		};
-		tempPlayerList.push(player);
+		tempPlayerList.push(getPlayerInfo(game,i));
     }
 	var data = {
 		playersList: tempPlayerList,
-		roundsPlayed: game.roundsPlayed,
-		toatlRounds: game.getTotalRounds(),
-		roundDuration: game.getRoundDuration(),
-		currentWord: game.getCurrentWord(),
 	};
 	return JSON.stringify(data);
 }
+
+startNextTurn = function(data,io) {
+	var game = getGame(data.roomName);
+	game.addGain();
+	if(game.gameEnded != true) {
+		game.setNewWord();
+		game.setEndTime();
+		var statusData = {
+			roundsPlayed: game.roundsPlayed,
+			toatlRounds: game.getTotalRounds(),
+			roundDuration: game.getRoundDuration(),
+			currentWord: game.getCurrentWord(),
+			playerInfo : {},
+		}
+		for(var i=0;i<game.room.players.length;i++) {
+			playerInfo = getPlayerInfo(game,i),
+			io.to(game.room.players[i].socketId).emit('playerInfo',playerInfo);
+			statusData.playerInfo = playerInfo;
+			io.to(game.room.players[i].socketId).emit('statusBarData',statusData);
+		}
+		io.sockets.in(data.roomName).emit('endTimeData',game.endTime);
+		io.sockets.in(data.roomName).emit('playerChangeUpdate',gameManager.sendData(data.roomName));
+	} else {
+		return;
+	}
+}
+
+
 
 module.exports = { getGame, createGame, sendData, deleteGame}

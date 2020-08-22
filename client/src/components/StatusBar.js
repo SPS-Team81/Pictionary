@@ -1,16 +1,27 @@
 import React from 'react';
 import './statusbar.css'
-import { _roomName } from '../api';
+import { socket,_roomName } from '../api';
 
 export default class StatusBar extends React.Component {
     constructor() {
         super();
         this.state = {
-            currentRound: 1,
+            currentRound: 0,
             totalRounds: 5,
-            word: "Hell",
+            word: "",
             player: { drawing: true },
         }
+    }
+
+    componentDidMount() {
+        socket.on('statusBarData',(data) => {
+            this.setState({
+                currentRound: data.roundsPlayed,
+                totalRounds: data.totalRounds,
+                word: data.currentWord,
+                player: data.playerInfo,
+            });
+        });
     }
 
     render() {

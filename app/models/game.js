@@ -9,12 +9,13 @@ class Game {
         this.currentPlayerDrawingIndex = 0;
         this.unusedWords = [];
         this.currentWord = '';
+        this.gameEnded = false;
+        this.endTime = new Date();
 
-        this.getWords();
-        // this.setNewWord();
+        this.fetchWords();
     }
 
-    getWords() {
+    fetchWords() {
         fs.readFile("../../words.txt", function(text){
             text = text+"";
             this.unusedWords = text.split("\n")
@@ -25,8 +26,9 @@ class Game {
     resetGame() {
         for (index = 0; index < this.room.players.length; index++) {
             this.room.players[index].points = 0;
-            this.room.players[index].guessStatus = 0;
         }
+        this.resetGuess();
+        this.gameEnded = false;
         this.roundsPlayed = 0;
         this.currentPlayerDrawingIndex = 0;
     }
@@ -47,10 +49,33 @@ class Game {
         return this.totalRounds;
     }
 
+    setEndTime() {
+        var dt = new Date();
+        dt.setSeconds(dt.getSeconds() + this.getRoundDuration);
+        this.endTime = dt;
+    }
+
     setNewWord() {
         this.currentWord = this.unusedWords[Math.floor((Math.random() * this.unusedWords.length))];
         this.unusedWords.remove(this.currentWord);
+        if(this.unusedWords.length == 0) {
+            this.fetchWords();
+        }
     }
+
+    addGain() {
+        for(var i = 0;i<this.room.players.length;i++) {
+            thi.room.players[i].points = thi.room.players[i].points + thi.room.players[i].gain;
+		    thi.room.players[i].gain = 0;
+        }
+    }
+
+    resetGuess() {
+        for (var i = 0;i<this.room.players.length;i++) {
+            this.room.players[i].guessStatus = 0;
+        }
+    }
+
 
     nextTurn() {
         this.currentPlayerDrawingIndex += 1;
@@ -58,12 +83,10 @@ class Game {
             this.roundsPlayed += 1;
             this.currentPlayerDrawingIndex = 0;
             if(this.roundsPlayed == this.totalRounds) {
-                this.announceWinner();
+                // this.announceWinner();
+                this.gameEnded = ture;
                 return;
             }
-        }
-        for (index = 0; index < this.room.players.length; index++) {
-            this.this.room.players[i].guessStatus = false;
         }
         this.setNewWord();
     }
