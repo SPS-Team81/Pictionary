@@ -1,14 +1,16 @@
 canvas {
-  width: 48vw;
-  height: 45vw;
+  margin-top: 0vw;
+  width: 47.7vw;
+  height: 42.7vw;
+  border-style: solid;
 }
 
 .canvas-tools {
-  width: 48vw;
+  width: 47.75vw;
   border: 0.15vw;
   border-style: solid;
-  border-color: black;
   margin: auto;
+  background-color: white;
 }
 
 .slider {

@@ -162,7 +162,6 @@ function Canvas() {
             <div style={{ textAlign: "center" }}>
                 <canvas
                     ref={canvasRef}
-                    style={{ border: '2px solid #000', marginTop: 20 }}
                     onMouseDown={(e) => onMouseDown(e)}
                     onMouseUp={(e) => onMouseUp(e)}
                     onMouseOut={(e) => onMouseUp(e)}

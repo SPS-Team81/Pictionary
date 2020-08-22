@@ -4,12 +4,12 @@ import Canvas from './Canvas';
 import ScoreBoard from './ScoreBoard';
 import Timer from './Timer';
 import ChatBox from './ChatBox';
+import StatusBar from './StatusBar'
 
 export default class Game extends React.Component {
     constructor(props) {
         super(props);
     }
-
 
     render() {
         return(
@@ -19,6 +19,7 @@ export default class Game extends React.Component {
                 </Grid>
 
                 <Grid item md={6} lg={6}>
+                    <StatusBar />
                     <Canvas />
                 </Grid>
 
