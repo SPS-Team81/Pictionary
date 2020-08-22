@@ -17,6 +17,7 @@ const startSocketConnection = function(server) {
 			var status;
 			var newRoomName = "";
 			var playerName = roomJson.playerName;
+			var length = 0;
 			if(roomJson.isAdmin===true) {
 				console.log("Creating a room.");
 				
@@ -30,8 +31,7 @@ const startSocketConnection = function(server) {
 				
 				var game = gameManager.createGame(room,parseInt(roomJson.totalRounds),parseInt(roomJson.timeToGuess));
 				
-				io.sockets.in(newRoomName).emit('playerCountUpdate',{count: game.room.players.length});
-
+				length = room.players.length;
 				status = 200;
 				newRoomName = room.roomName
 			} else {
@@ -43,10 +43,10 @@ const startSocketConnection = function(server) {
 				if(status==200) {
 					newRoomName = roomJson.roomName;
 					var game = gameManager.getGame(newRoomName);
+					length = game.room.players.length;
 					if(game.room.players.length == 2) {
 						gameManager.startNextTurn({roomName: newRoomName},io);
 					}
-					io.sockets.in(newRoomName).emit('playerCountUpdate',{count: game.room.players.length});
 				}
 			}
 			data = {
@@ -57,6 +57,7 @@ const startSocketConnection = function(server) {
 			socket.emit('newJoinee',JSON.stringify(data));
 			if(status==200) {
 				socket.join(newRoomName);
+				io.sockets.in(newRoomName).emit('playerCountUpdate',{count: length});
 				io.sockets.in(newRoomName).emit('joinedRoom', playerName + " has joined");
 				// io.sockets.in(newRoomName).emit('playerChangeUpdate',gameManager.sendData(newRoomName));
 			}
