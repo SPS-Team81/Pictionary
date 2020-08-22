@@ -1,0 +1,32 @@
+.status-bar {
+    background-color: lightgray;
+    margin-right: 1vw;
+    margin-top: 1vw;
+    margin-left: 1vw;
+    border-style: solid solid none solid;
+}
+
+.text {
+    padding: 0.4vw;
+    margin-bottom: 0vw;
+    margin-top: 0vw;
+}
+
+tr, th {
+    padding-top: 0vw;
+    padding-bottom: 0vw;
+}
+
+.room-id {
+    width: 20vw;
+    text-align: left;
+}
+
+.round-info {
+    width: 15vw;
+}
+
+.word {
+    text-align: right;
+    width: 20vw;
+}
