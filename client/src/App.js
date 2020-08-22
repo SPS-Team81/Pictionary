@@ -10,7 +10,7 @@ export default class App extends React.Component {
         this.state = {
             roomName: '',
             playerName: '',
-            playersList: [],
+            playerCount: 0,
         };
     }
 
@@ -26,10 +26,9 @@ export default class App extends React.Component {
                 alert('This Room Does Not Exist');
             }
         });
-        socket.on('playerChangeUpdate', (data) => {
-            let dataJson = JSON.parse(data);
+        socket.on('playerCountUpdate', (data) => {
             this.setState({
-                playersList: dataJson.playersList,
+                playerCount: data.count,
             });
         });
     }
@@ -40,7 +39,7 @@ export default class App extends React.Component {
                 <Join />
             );
         } else {
-            if (this.state.playersList.length <= 1) {
+            if (this.state.playerCount <= 1) {
                 return (
                     <Waiting />
                 );

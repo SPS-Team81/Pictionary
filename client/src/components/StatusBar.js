@@ -7,15 +7,15 @@ export default class StatusBar extends React.Component {
         super();
         this.state = {
             currentRound: 0,
-            totalRounds: 5,
+            totalRounds: 0,
             word: "",
-            blankWord: "",
             player: { drawing: false },
         }
     }
 
     componentDidMount() {
         socket.on('statusBarData',(data) => {
+            console.log("Status Bar: "+data);
             this.setState({
                 currentRound: data.roundsPlayed,
                 totalRounds: data.totalRounds,
@@ -26,13 +26,14 @@ export default class StatusBar extends React.Component {
     }
 
     render() {
+        var blankWord;
         if (this.state.player.drawing === false) {
             var len = this.state.word.length;
             var temp = "";
             for (var i = 0; i < len; i++) {
                 temp = temp.concat("_ ");
             }
-            this.state.blankWord = temp;
+            blankWord = temp;
         }
 
         return (
@@ -52,7 +53,7 @@ export default class StatusBar extends React.Component {
                                 <h3 className="text">{this.state.word}</h3>
                             }
                             {this.state.player.drawing === false &&
-                                <h3 className="text">{this.state.blankWord}</h3>
+                                <h3 className="text">{blankWord}</h3>
                             }
                         </th>
                     </tr>

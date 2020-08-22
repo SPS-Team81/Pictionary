@@ -1,21 +1,27 @@
 import React from 'react';
 import './timer.css'
-import { socket } from '../api.js';
+import { socket,_roomName } from '../api.js';
 
 export default class Clock extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
+            playerInfo: {},
             timestampToEnd: new Date(),
             timeremaining: 0, 
         };
     }
 
     componentDidMount() {
-        socket.on('newRoundUpdate', (data) => {
-            let dataJson = JSON.parse(data);
+        socket.on('playerInfo',(data) => {
             this.setState({
-                timeRemaining: dataJson.roundDuration,
+                playerInfo: data,
+            });
+        });
+        
+        socket.on('endTimeData', (data) => {
+            this.setState({
+                timestampToEnd: data,
             });
         });
         this.timerId = setInterval(
@@ -27,7 +33,7 @@ export default class Clock extends React.Component {
     calculateTime() {
         var currentTime = new Date();
         var endTime = new Date(this.state.timestampToEnd);
-        var seconds = (currentTime.getTime() - endTime.getTime()) / 1000;
+        var seconds = (endTime.getTime() - currentTime.getTime()) / 1000;
         return parseInt(seconds);
     }
 
@@ -35,6 +41,9 @@ export default class Clock extends React.Component {
         this.setState({
             timeRemaining: this.calculateTime(),
         })
+        if(this.timeRemaining == 0 && this.playerInfo.drawing) {
+            socket.emit('nextTurn',{roomName: _roomName});
+        }
     }
 
     render() {

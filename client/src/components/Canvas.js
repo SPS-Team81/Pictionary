@@ -8,8 +8,13 @@ function Canvas() {
     const current = { x: 0, y: 0 , color: "#000000"};
     const canvasRef = useRef(null);
     const [sliderValue, changeSlider] = useState(50);
+    const [playerInfo, changePlayerInfo] = useState({});
 
     useEffect(() => {
+        socket.on('playerInfo',(data) => {
+            changePlayerInfo(data);
+        });
+
         socket.on('drawReceive',(data) => {
             // var data = JSON.parse(tempData); 
             // console.log(data.x0);
