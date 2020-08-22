@@ -46,11 +46,11 @@ const getPlayerInfo = function(game,index) {
 		isDrawing = true;
 	}
 	var player = {
-		username: game.room.players[i].playerName,
-		points: game.room.players[i].points,
+		username: game.room.players[index].playerName,
+		points: game.room.players[index].points,
 		drawing: isDrawing,
-		guessed: game.room.players[i].guessStatus,
-		gain: game.room.players[i].gain,
+		guessed: game.room.players[index].guessStatus,
+		gain: game.room.players[index].gain,
 	};
 	return player;
 }
@@ -75,6 +75,7 @@ startNextTurn = function(data,io) {
 	var game = getGame(data.roomName);
 	game.addGain();
 	if(game.gameEnded != true) {
+		console.log(data.roomName+" starting new turn");
 		game.setNewWord();
 		game.setEndTime();
 		var statusData = {
@@ -91,7 +92,7 @@ startNextTurn = function(data,io) {
 			io.to(game.room.players[i].socketId).emit('statusBarData',statusData);
 		}
 		io.sockets.in(data.roomName).emit('endTimeData',game.endTime);
-		io.sockets.in(data.roomName).emit('playerChangeUpdate',gameManager.sendData(data.roomName));
+		io.sockets.in(data.roomName).emit('playerChangeUpdate',sendData(data.roomName));
 	} else {
 		return;
 	}
@@ -99,4 +100,4 @@ startNextTurn = function(data,io) {
 
 
 
-module.exports = { getGame, createGame, sendData, deleteGame}
+module.exports = { getGame, createGame, sendData, deleteGame, startNextTurn, getPlayerInfo}

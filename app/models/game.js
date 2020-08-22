@@ -7,12 +7,12 @@ class Game {
         this.room = room;
         this.roundsPlayed = 0;
         this.currentPlayerDrawingIndex = 0;
-        this.unusedWords = [];
+        this.unusedWords = ['car','bus','road','light','pen'];
         this.currentWord = '';
         this.gameEnded = false;
         this.endTime = new Date();
 
-        this.fetchWords();
+        // this.fetchWords();
     }
 
     fetchWords() {
@@ -54,8 +54,14 @@ class Game {
     }
 
     setNewWord() {
-        this.currentWord = this.unusedWords[Math.floor((Math.random() * this.unusedWords.length))];
-        this.unusedWords.remove(this.currentWord);
+        var index = Math.floor((Math.random() * this.unusedWords.length));
+        this.currentWord = this.unusedWords[index];
+
+        for(var i = index;i<this.unusedWords.length - 1;i++) {
+            this.unusedWords[i] = this.unusedWords[i+1];
+        }
+        this.unusedWords.pop();
+
         if(this.unusedWords.length == 0) {
             this.fetchWords();
         }
@@ -63,8 +69,8 @@ class Game {
 
     addGain() {
         for(var i = 0;i<this.room.players.length;i++) {
-            thi.room.players[i].points = thi.room.players[i].points + thi.room.players[i].gain;
-		    thi.room.players[i].gain = 0;
+            this.room.players[i].points = this.room.players[i].points + this.room.players[i].gain;
+		    this.room.players[i].gain = 0;
         }
     }
 

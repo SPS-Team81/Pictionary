@@ -30,6 +30,8 @@ const startSocketConnection = function(server) {
 				
 				var game = gameManager.createGame(room,parseInt(roomJson.totalRounds),parseInt(roomJson.timeToGuess));
 				
+				io.sockets.in(newRoomName).emit('playerCountUpdate',{count: game.room.players.length});
+
 				status = 200;
 				newRoomName = room.roomName
 			} else {
@@ -40,6 +42,11 @@ const startSocketConnection = function(server) {
 				status = roomManager.addPlayerToRoom(roomJson.roomName, player);
 				if(status==200) {
 					newRoomName = roomJson.roomName;
+					var game = gameManager.getGame(newRoomName);
+					if(game.room.players.length == 2) {
+						gameManager.startNextTurn({roomName: newRoomName},io);
+					}
+					io.sockets.in(newRoomName).emit('playerCountUpdate',{count: game.room.players.length});
 				}
 			}
 			data = {
@@ -51,7 +58,7 @@ const startSocketConnection = function(server) {
 			if(status==200) {
 				socket.join(newRoomName);
 				io.sockets.in(newRoomName).emit('joinedRoom', playerName + " has joined");
-				io.sockets.in(newRoomName).emit('playerChangeUpdate',gameManager.sendData(newRoomName));
+				// io.sockets.in(newRoomName).emit('playerChangeUpdate',gameManager.sendData(newRoomName));
 			}
 		});
 
@@ -88,9 +95,9 @@ const startSocketConnection = function(server) {
 			gameManager.startNextTurn(data,io);
 		});
 
-		socket.on('startGame',(data) => {
-			gameManager.startNextTurn(data,io);
-		});
+		// socket.on('startGame',(data) => {
+		// 	gameManager.startNextTurn(data,io);
+		// });
 
 	});
 	
