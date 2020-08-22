@@ -49,7 +49,7 @@ const sendData = function(roomName) {
 	var tempPlayerList = [];
 	for (i = 0;i<room.players.length;i++) {
 		var isDrawing = false;
-		if (i == game.currentPlayerDrawingIndex) {
+		if (i == game.getCurrenPlayerDrawingIndex()) {
 			isDrawing = true;
 		}
 		var player = {
@@ -57,6 +57,7 @@ const sendData = function(roomName) {
 			points: room.players[i].points,
 			drawing: isDrawing,
 			guessed: room.players[i].guessStatus,
+			gain: room.players[i].gain,
 		};
 		tempPlayerList.push(player);
     }

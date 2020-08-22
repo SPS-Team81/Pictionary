@@ -6,6 +6,7 @@ class Player {
         this.points = 0;
         this.scoketId = scoketId;
         this.guessStatus = false;
+        this.gain = 0;
     }
 
     getSocketId() {

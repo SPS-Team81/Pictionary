@@ -31,8 +31,8 @@ class Game {
         this.currentPlayerDrawingIndex = 0;
     }
 
-    getCurrentPlayerDrawing() {
-        return this.game.players[this.currentPlayerDrawingIndex];
+    getCurrentPlayerDrawingIndex() {
+        return this.currentPlayerDrawingIndex;
     }
 
     getCurrentWord() {
