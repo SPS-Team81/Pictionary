@@ -34,7 +34,7 @@
     text-align: center;
 }
 
-.own-message, .other-message {
+.own-message, .other-message, .system-message {
     width: 15vw;
     padding-top: 0vw;
     padding-bottom: 0vw;
@@ -55,6 +55,11 @@
 .other-message {
     background-color: lightgray;
     border-color: lightgray;
+}
+
+.system-message {
+    background-color: #00E676;
+    border-color: #00E676;
 }
 
 .name {

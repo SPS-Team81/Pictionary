@@ -5,6 +5,8 @@ import { _playerName, socket, _roomName } from '../api'
 
 const customTheme = createMuiTheme({ palette: { primary: colors.blue, secondary: colors.green } });
 
+const sys_socket = "SYSTEM_SOCKET_ID";
+
 export default class ChatBox extends React.Component {
     constructor() {
         super();
@@ -80,6 +82,13 @@ export default class ChatBox extends React.Component {
                                         <p className="message">{item[1]}</p>
                                     </div>
                                 );
+                            } else if (item[2] === sys_socket) {
+                                return (
+                                    <div className="system-message">
+                                        <p className="name"><b>System</b></p>
+                                        <p className="message">{item[1]}</p>
+                                    </div>
+                                )
                             } else {
                                 return (
                                     <div className="other-message">
