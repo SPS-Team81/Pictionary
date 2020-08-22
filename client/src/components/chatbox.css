@@ -48,8 +48,8 @@
 
 .own-message {
     float: right;
-    background-color: rgb(146, 146, 233);
-    border-color: rgb(146, 146, 233);
+    background-color: #2196F3;
+    border-color: #2196F3;
 }
 
 .other-message {
