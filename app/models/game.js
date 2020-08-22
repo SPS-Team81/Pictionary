@@ -16,11 +16,9 @@ class Game {
     }
 
     fetchWords() {
-        fs.readFile("../../words.txt", function(text){
-            text = text+"";
-            this.unusedWords = text.split("\n")
-        });
-        // console.log(this.unusedWords);
+        var text = fs.readFileSync("words.txt");
+        text = text+"";
+        this.unusedWords = text.split("\n")
     }
 
     resetGame() {
