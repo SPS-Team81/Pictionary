@@ -9,7 +9,8 @@ export default class StatusBar extends React.Component {
             currentRound: 0,
             totalRounds: 5,
             word: "",
-            player: { drawing: true },
+            blankWord: "",
+            player: { drawing: false },
         }
     }
 
@@ -25,6 +26,15 @@ export default class StatusBar extends React.Component {
     }
 
     render() {
+        if (this.state.player.drawing === false) {
+            var len = this.state.word.length;
+            var temp = "";
+            for (var i = 0; i < len; i++) {
+                temp = temp.concat("_ ");
+            }
+            this.state.blankWord = temp;
+        }
+
         return (
             <div className="status-bar">
                 <table>
@@ -39,7 +49,10 @@ export default class StatusBar extends React.Component {
 
                         <th className="word">
                             {this.state.player.drawing === true &&
-                                <h3 className="text">{this.state.player.drawing === true && this.state.word}</h3>
+                                <h3 className="text">{this.state.word}</h3>
+                            }
+                            {this.state.player.drawing === false &&
+                                <h3 className="text">{this.state.blankWord}</h3>
                             }
                         </th>
                     </tr>

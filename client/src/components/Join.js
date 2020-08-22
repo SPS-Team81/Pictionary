@@ -1,10 +1,8 @@
 import React from 'react';
 import './join.css';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { _roomName, _playerName, joinPlayerInGame } from '../api';
 
@@ -77,9 +75,6 @@ export default class Join extends React.Component {
 
                 <Grid item md={3} lg={3}>
                     <div className="paper">
-                        {/* <Avatar className="avatar">
-                            <LockOutlinedIcon />
-                        </Avatar> */}
                         <Typography component="h1" variant="h5">
                             Create a New Room
                         </Typography>
@@ -133,9 +128,6 @@ export default class Join extends React.Component {
 
                 <Grid item md={3} lg={3}>
                     <div className="paper" style={{ paddingBottom: 135 }}>
-                        {/* <Avatar className="avatar">
-                            <LockOutlinedIcon />
-                        </Avatar> */}
                         <Typography component="h1" variant="h5">
                             Join a Room
                         </Typography>
