@@ -44,9 +44,9 @@ const startSocketConnection = function(server) {
 					newRoomName = roomJson.roomName;
 					var game = gameManager.getGame(newRoomName);
 					length = game.room.players.length;
-					if(game.room.players.length == 2) {
-						gameManager.startNextTurn({roomName: newRoomName},io);
-					}
+					// if(game.room.players.length == 2) {
+					// 	gameManager.startNextTurn({roomName: newRoomName},io);
+					// }
 				}
 			}
 			data = {
@@ -59,7 +59,10 @@ const startSocketConnection = function(server) {
 				socket.join(newRoomName);
 				io.sockets.in(newRoomName).emit('playerCountUpdate',{count: length});
 				io.sockets.in(newRoomName).emit('joinedRoom', playerName + " has joined");
-				// io.sockets.in(newRoomName).emit('playerChangeUpdate',gameManager.sendData(newRoomName));
+				if(length==2) {
+					gameManager.startNextTurn({roomName: newRoomName},io);
+				}
+				io.sockets.in(newRoomName).emit('playerChangeUpdate',gameManager.sendData(newRoomName));
 			}
 		});
 
@@ -68,11 +71,14 @@ const startSocketConnection = function(server) {
 			for(roomName in rooms) {
 				const room = roomManager.getRoom(roomName);
 				if(typeof(room)!="undefined") {
-					console.log("player leaving room "+roomName);
+					console.log("player leaving room "+room.roomName+" room size: "+room.players.length);
 					if(room.players.length==1) {
 						gameManager.deleteGame(room.roomName);
+						roomManager.deletePlayer(room,socket.id);
+						return;
 					}
 					roomManager.deletePlayer(room,socket.id);
+					io.sockets.in(roomName).emit('playerCountUpdate',{count: room.players.length});
 					io.sockets.in(roomName).emit('playerChangeUpdate',gameManager.sendData(roomName));
 				}	
 			}
@@ -92,6 +98,7 @@ const startSocketConnection = function(server) {
 		});
 
 		socket.on('nextTurn',(data) => {
+			var game = gameManager.getGame(data.roomName);
 			game.nextTurn();
 			gameManager.startNextTurn(data,io);
 		});

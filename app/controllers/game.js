@@ -5,7 +5,7 @@ const roomManager = require('./room.js')
 var games = []
 
 
-const createGame = function(room,roundDuration,totalRounds) {
+const createGame = function(room,totalRounds,roundDuration) {
     var game =  new Game(room,roundDuration,totalRounds);
     games.push(game);
     return game;
@@ -42,6 +42,9 @@ const deleteGame = function(roomName) {
 
 const getPlayerInfo = function(game,index) {
 	var isDrawing = false;
+	if(typeof(game)=="undefined") {
+		return {};
+	}
 	if (index == game.getCurrentPlayerDrawingIndex()) {
 		isDrawing = true;
 	}
@@ -51,6 +54,7 @@ const getPlayerInfo = function(game,index) {
 		drawing: isDrawing,
 		guessed: game.room.players[index].guessStatus,
 		gain: game.room.players[index].gain,
+		socketId: game.room.players[index].socketId,
 	};
 	return player;
 }
@@ -80,19 +84,20 @@ startNextTurn = function(data,io) {
 		game.setEndTime();
 		var statusData = {
 			roundsPlayed: game.roundsPlayed,
-			toatlRounds: game.getTotalRounds(),
+			totalRounds: game.getTotalRounds(),
 			roundDuration: game.getRoundDuration(),
 			currentWord: game.getCurrentWord(),
 			playerInfo : {},
 		}
+		var dt = game.getEndTime();
+		io.sockets.in(data.roomName).emit('endTimeData',{endTime: dt.toString()});
+		io.sockets.in(data.roomName).emit('playerChangeUpdate',sendData(data.roomName));
 		for(var i=0;i<game.room.players.length;i++) {
 			playerInfo = getPlayerInfo(game,i),
-			io.to(game.room.players[i].socketId).emit('playerInfo',playerInfo);
+			io.sockets.in(data.roomName).emit('playerInfo',playerInfo);
 			statusData.playerInfo = playerInfo;
-			io.to(game.room.players[i].socketId).emit('statusBarData',statusData);
+			io.sockets.in(data.roomName).emit('statusBarData',statusData);
 		}
-		io.sockets.in(data.roomName).emit('endTimeData',game.endTime);
-		io.sockets.in(data.roomName).emit('playerChangeUpdate',sendData(data.roomName));
 	} else {
 		return;
 	}

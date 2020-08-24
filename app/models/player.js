@@ -1,16 +1,16 @@
 class Player {
 	
-    constructor(playerName, isAdmin, scoketId) {
+    constructor(playerName, isAdmin, socketId) {
         this.playerName = playerName;
         this.isAdmin = isAdmin;
         this.points = 0;
-        this.scoketId = scoketId;
+        this.socketId = socketId;
         this.guessStatus = false;
         this.gain = 0;
     }
 
     getSocketId() {
-        return this.scoketId;
+        return this.socketId;
     }
 }
 

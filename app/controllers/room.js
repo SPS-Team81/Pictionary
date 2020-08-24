@@ -61,7 +61,7 @@ const removeRoom  = function(room) {
 const deletePlayer = function(room,socketId) {
     var player = getPlayer(room.roomName,socketId);
     if (typeof(player) != "undefined") {
-        room.removePlayer(player);
+        room.removePlayer(player)
         if(room.players.length==0) {
             console.log('deleting room '+ room.roomName);
             removeRoom(room);

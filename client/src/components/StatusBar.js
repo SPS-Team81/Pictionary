@@ -15,13 +15,15 @@ export default class StatusBar extends React.Component {
 
     componentDidMount() {
         socket.on('statusBarData',(data) => {
-            console.log("Status Bar: "+data);
-            this.setState({
-                currentRound: data.roundsPlayed,
-                totalRounds: data.totalRounds,
-                word: data.currentWord,
-                player: data.playerInfo,
-            });
+            console.log("Status Bar: "+JSON.stringify(data));
+            if(data.playerInfo.socketId==socket.id) {
+                this.setState({
+                    currentRound: data.roundsPlayed,
+                    totalRounds: data.totalRounds,
+                    word: data.currentWord,
+                    player: data.playerInfo,
+                });
+            }
         });
     }
 

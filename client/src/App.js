@@ -1,7 +1,6 @@
 import React from 'react';
 import Game from './components/Game';
 import Join from './components/Join';
-import Waiting from './components/Waiting';
 import { socket, _roomName } from './api'
 
 export default class App extends React.Component {
@@ -10,7 +9,6 @@ export default class App extends React.Component {
         this.state = {
             roomName: '',
             playerName: '',
-            playerCount: 0,
         };
     }
 
@@ -39,15 +37,9 @@ export default class App extends React.Component {
                 <Join />
             );
         } else {
-            if (this.state.playerCount <= 1) {
-                return (
-                    <Waiting />
-                );
-            } else {
-                return (
-                    <Game />
-                );
-            }
+            return (
+                <Game />
+            );
         }
     }
 }

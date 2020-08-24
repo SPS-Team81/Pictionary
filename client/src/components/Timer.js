@@ -12,16 +12,30 @@ export default class Clock extends React.Component {
         };
     }
 
+    calculateTime() {
+        var currentTime = new Date();
+        var endTime = new Date(this.state.timestampToEnd);
+        var seconds = (endTime.getTime() - currentTime.getTime()) / 1000;
+        return parseInt(seconds);
+    }
+
     componentDidMount() {
         socket.on('playerInfo',(data) => {
-            this.setState({
-                playerInfo: data,
-            });
+            if(socket.id==data.socketId) {
+                console.log("Player Info: "+JSON.stringify(data));
+                this.setState({
+                    playerInfo: data,
+                });
+            }
         });
         
         socket.on('endTimeData', (data) => {
+            var dt = new Date(data.endTime);
             this.setState({
-                timestampToEnd: data,
+                timestampToEnd: dt,
+            });
+            this.setState({
+                timeRemaining: this.calculateTime(),
             });
         });
         this.timerId = setInterval(
@@ -30,19 +44,21 @@ export default class Clock extends React.Component {
         );
     }
 
-    calculateTime() {
-        var currentTime = new Date();
-        var endTime = new Date(this.state.timestampToEnd);
-        var seconds = (endTime.getTime() - currentTime.getTime()) / 1000;
-        return parseInt(seconds);
-    }
 
     tick() {
-        this.setState({
-            timeRemaining: this.calculateTime(),
-        })
-        if(this.timeRemaining == 0 && this.playerInfo.drawing) {
+        console.log(this.state.playerInfo.drawing + " --- " + this.state.timeRemaining);
+        if(typeof(this.state.playerInfo.drawing)=="undefined") {
+            return;
+        }
+        if((this.state.timeRemaining == 1) && (this.state.playerInfo.drawing==true)) {
             socket.emit('nextTurn',{roomName: _roomName});
+            this.setState({
+                timeRemaining: 0,
+            });
+        } else {
+            this.setState({
+                timeRemaining: this.calculateTime(),
+            });
         }
     }
 

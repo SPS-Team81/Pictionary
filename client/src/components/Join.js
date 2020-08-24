@@ -52,7 +52,7 @@ export default class Join extends React.Component {
         var data = {
             playerName: this.state.username,
             isAdmin: true,
-            roundDuration: this.state.numberOfRounds,
+            totalRounds: this.state.numberOfRounds,
             timeToGuess: this.state.timeToGuess,
         }
         joinPlayerInGame(data);

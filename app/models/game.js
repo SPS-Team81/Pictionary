@@ -2,8 +2,8 @@ var fs = require("fs");
 
 class Game {
     constructor(room,roundDuration,totalRounds) {
-        this.roundDuration = roundDuration;
-        this.totalRounds = totalRounds;
+        this.roundDuration = parseInt(roundDuration);
+        this.totalRounds = parseInt(totalRounds);
         this.room = room;
         this.roundsPlayed = 0;
         this.currentPlayerDrawingIndex = 0;
@@ -47,9 +47,13 @@ class Game {
         return this.totalRounds;
     }
 
+    getEndTime() {
+        return this.endTime;
+    }
+
     setEndTime() {
         var dt = new Date();
-        dt.setSeconds(dt.getSeconds() + this.getRoundDuration);
+        dt.setSeconds(dt.getSeconds() + this.getRoundDuration() + 3);
         this.endTime = dt;
     }
 
@@ -62,8 +66,10 @@ class Game {
         }
         this.unusedWords.pop();
 
+        console.log("Length of unused Words: "+this.unusedWords.length);
+
         if(this.unusedWords.length == 0) {
-            this.fetchWords();
+            // this.fetchWords();
         }
     }
 
@@ -92,7 +98,7 @@ class Game {
                 return;
             }
         }
-        this.setNewWord();
+        // this.setNewWord();
     }
 }
 
