@@ -41,14 +41,13 @@ function Canvas() {
         canvasRef.current.height = canvasRef.current.offsetHeight;
     }
 
-    function drawLine(x0, y0, x1, y1, color, emit) {
+    function drawLine(x0, y0, x1, y1, color, lineWidth, emit) {
         const context = canvasRef.current.getContext('2d');
-        // context.globalCompositeOperation = "source-over";
         context.beginPath();
         context.moveTo(x0, y0);
         context.lineTo(x1, y1);
-        context.strokeStyle = current.color;
-        context.lineWidth = sliderValue / 10;
+        context.strokeStyle = color;
+        context.lineWidth = lineWidth / 10;
 
         context.stroke();
         context.closePath();
@@ -59,13 +58,13 @@ function Canvas() {
         var w = canvasRef.current.width;
         var h = canvasRef.current.height;
 
-        // console.log(color);
         var data = {
             x0: x0 / w,
             y0: y0 / h,
             x1: x1 / w,
             y1: y1 / h,
             color: color,
+            lineWidth: lineWidth,
             roomName: _roomName
         }
         socket.emit('drawEvent', data);
@@ -122,7 +121,7 @@ function Canvas() {
         current.x = pos[0];
         current.y = pos[1];
 
-        drawLine(lastX, lastY, current.x, current.y, current.color, true);
+        drawLine(lastX, lastY, current.x, current.y, current.color, sliderValue, true);
     }
 
     function throttle(callback, delay) {
@@ -140,7 +139,7 @@ function Canvas() {
     function onDrawingEvent(data) {
         var w = canvasRef.current.width;
         var h = canvasRef.current.height;
-        drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color, false);
+        drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color, data.lineWidth, false);
     }
 
     const clearCanvas = (roundNumber, totalRounds) => {
@@ -191,7 +190,7 @@ function Canvas() {
                 <div className="canvas-tools">
                     <input
                         type="range"
-                        min="1" max="100"
+                        min="10" max="500"
                         value={sliderValue}
                         onChange={(e) => onSliderChange(e)}
                         step="1"
