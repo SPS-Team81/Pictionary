@@ -103,6 +103,31 @@ startNextTurn = function(data,io) {
 	}
 }
 
+sendNewPlayer = function(data,io) {
+	var game = getGame(data.roomName);
+	if(game.gameEnded != true) {
+		console.log(data.roomName+" starting new turn");
+		var statusData = {
+			roundsPlayed: game.roundsPlayed,
+			totalRounds: game.getTotalRounds(),
+			roundDuration: game.getRoundDuration(),
+			currentWord: game.getCurrentWord(),
+			playerInfo : {},
+		}
+		var dt = game.getEndTime();
+		io.sockets.in(data.roomName).emit('endTimeData',{endTime: dt.toString()});
+		io.sockets.in(data.roomName).emit('playerChangeUpdate',sendData(data.roomName));
+		for(var i=0;i<game.room.players.length;i++) {
+			playerInfo = getPlayerInfo(game,i),
+			io.sockets.in(data.roomName).emit('playerInfo',playerInfo);
+			statusData.playerInfo = playerInfo;
+			io.sockets.in(data.roomName).emit('statusBarData',statusData);
+		}
+	} else {
+		return;
+	}
+}
 
 
-module.exports = { getGame, createGame, sendData, deleteGame, startNextTurn, getPlayerInfo}
+
+module.exports = { getGame, createGame, sendData, deleteGame, startNextTurn, getPlayerInfo, sendNewPlayer}

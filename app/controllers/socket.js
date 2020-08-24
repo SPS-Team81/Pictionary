@@ -61,6 +61,8 @@ const startSocketConnection = function(server) {
 				io.sockets.in(newRoomName).emit('joinedRoom', playerName + " has joined");
 				if(length==2) {
 					gameManager.startNextTurn({roomName: newRoomName},io);
+				} else if(length>2) {
+					gameManager.sendNewPlayer({roomName: newRoomName},io);
 				}
 				io.sockets.in(newRoomName).emit('playerChangeUpdate',gameManager.sendData(newRoomName));
 			}
@@ -76,6 +78,11 @@ const startSocketConnection = function(server) {
 						gameManager.deleteGame(room.roomName);
 						roomManager.deletePlayer(room,socket.id);
 						return;
+					}
+					var game = gameManager.getGame(roomName);
+					if(roomManager.getPlayerIndex(roomName,socket.id) == game.getCurrentPlayerDrawingIndex()) {
+						game.nextTurn();
+						gameManager.startNextTurn({roomName: roomName},io);
 					}
 					roomManager.deletePlayer(room,socket.id);
 					io.sockets.in(roomName).emit('playerCountUpdate',{count: room.players.length});

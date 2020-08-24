@@ -12,6 +12,18 @@ const getRoom = function (roomName) {
     return room;
 }
 
+const getPlayerIndex = function(roomName, socketId) {
+    var room = getRoom(roomName);
+    if (typeof(room) != "undefined") {
+        for(var i=0;i<room.players.length;i++) {
+            if(room.players[i].getSocketId()==socketId) {
+                return i;
+            }
+        }
+    }
+    return -1;
+} 
+
 const getPlayer = function (roomName, socketId) {
 	var room = getRoom(roomName);
     var player;
@@ -69,4 +81,4 @@ const deletePlayer = function(room,socketId) {
     }
 }
 
-module.exports = {createRoom, getRoom, getPlayer, addPlayerToRoom, deletePlayer}
+module.exports = {createRoom, getRoom, getPlayer, addPlayerToRoom, deletePlayer, getPlayerIndex}
