@@ -22,7 +22,6 @@ export default class Clock extends React.Component {
     componentDidMount() {
         socket.on('playerInfo',(data) => {
             if(socket.id==data.socketId) {
-                console.log("Player Info: "+JSON.stringify(data));
                 this.setState({
                     playerInfo: data,
                 });

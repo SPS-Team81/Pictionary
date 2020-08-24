@@ -15,7 +15,6 @@ export default class StatusBar extends React.Component {
 
     componentDidMount() {
         socket.on('statusBarData',(data) => {
-            console.log("Status Bar: "+JSON.stringify(data));
             if(data.playerInfo.socketId==socket.id) {
                 this.setState({
                     currentRound: data.roundsPlayed,

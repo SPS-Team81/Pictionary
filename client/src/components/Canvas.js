@@ -1,27 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './canvas.css'
-import {socket,_roomName} from '../api';
+import { socket, _roomName } from '../api';
 
 function Canvas() {
     let mode = "pen";
     let drawing = false;
-    const current = { x: 0, y: 0 , color: "#000000"};
+    const current = { x: 0, y: 0, color: "#000000" };
     const canvasRef = useRef(null);
     const [sliderValue, changeSlider] = useState(50);
     const [playerInfo, changePlayerInfo] = useState({});
 
     useEffect(() => {
-        socket.on('playerInfo',(data) => {
-            changePlayerInfo(data);
+        socket.on('playerInfo', (data) => {
+            if (data.socketId === socket.id) {
+                changePlayerInfo(data);
+            }
         });
 
-        socket.on('drawReceive',(data) => {
+        socket.on('drawReceive', (data) => {
             // var data = JSON.parse(tempData); 
             // console.log(data.x0);
-			// console.log(data.y0);
-			// console.log(data.x1);
-			// console.log(data.y1);
-			// console.log(data.color);
+            // console.log(data.y0);
+            // console.log(data.x1);
+            // console.log(data.y1);
+            // console.log(data.color);
             onDrawingEvent(data);
         });
     });
@@ -104,7 +106,7 @@ function Canvas() {
     }
 
     function onMouseMove(e) {
-        if (!drawing) {
+        if (!drawing || !playerInfo.drawing) {
             return;
         }
 
@@ -115,7 +117,7 @@ function Canvas() {
 
         current.x = pos[0];
         current.y = pos[1];
-
+        
         drawLine(lastX, lastY, current.x, current.y, current.color, true);
     }
 
@@ -134,7 +136,7 @@ function Canvas() {
     function onDrawingEvent(data) {
         var w = canvasRef.current.width;
         var h = canvasRef.current.height;
-        drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color,false);
+        drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color, false);
     }
 
     const clearCanvas = (roundNumber, totalRounds) => {
