@@ -110,6 +110,10 @@ const startSocketConnection = function(server) {
 			gameManager.startNextTurn(data,io);
 		});
 
+		socket.on('clearCanvas', (data) => {
+			socket.to(data.roomName).emit('clearReceive');
+		});
+
 		// socket.on('startGame',(data) => {
 		// 	gameManager.startNextTurn(data,io);
 		// });

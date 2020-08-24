@@ -26,6 +26,10 @@ function Canvas() {
             // console.log(data.color);
             onDrawingEvent(data);
         });
+
+        socket.on('clearReceive', () => {
+            onClearCanvas();
+        });
     });
 
     useEffect(() => {
@@ -117,7 +121,7 @@ function Canvas() {
 
         current.x = pos[0];
         current.y = pos[1];
-        
+
         drawLine(lastX, lastY, current.x, current.y, current.color, true);
     }
 
@@ -159,6 +163,9 @@ function Canvas() {
     }
 
     function onClearCanvas() {
+        if (playerInfo.drawing) {
+            socket.emit("clearCanvas", {roomName: _roomName});
+        }
         const context = canvasRef.current.getContext('2d');
         context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
         selectBrush();
@@ -180,22 +187,24 @@ function Canvas() {
                 ></canvas>
             </div>
 
-            <div className="canvas-tools">
-                <input
-                    type="range"
-                    min="1" max="100"
-                    value={sliderValue}
-                    onChange={(e) => onSliderChange(e)}
-                    step="1"
-                    className="slider"
-                ></input>
+            {playerInfo.drawing &&
+                <div className="canvas-tools">
+                    <input
+                        type="range"
+                        min="1" max="100"
+                        value={sliderValue}
+                        onChange={(e) => onSliderChange(e)}
+                        step="1"
+                        className="slider"
+                    ></input>
 
-                <div className="horizontal-list">
-                    <i className="material-icons" onClick={selectBrush} style={{ cursor: "pointer" }}>brush</i>
-                    <img src="https://img.icons8.com/material/24/000000/eraser--v1.png" alt="eraser" onClick={selectEraser} style={{ cursor: "pointer", marginRight: 20, marginLeft: 20 }} />
-                    <i className="material-icons" onClick={onClearCanvas} style={{ cursor: "pointer" }}>delete</i>
+                    <div className="horizontal-list">
+                        <i className="material-icons" onClick={selectBrush} style={{ cursor: "pointer" }}>brush</i>
+                        <img src="https://img.icons8.com/material/24/000000/eraser--v1.png" alt="eraser" onClick={selectEraser} style={{ cursor: "pointer", marginRight: 20, marginLeft: 20 }} />
+                        <i className="material-icons" onClick={onClearCanvas} style={{ cursor: "pointer" }}>delete</i>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     );
 };
