@@ -81,6 +81,7 @@ startNextTurn = function(data,io) {
 	if(game.gameEnded != true) {
 		console.log(data.roomName+" starting new turn");
 		game.setNewWord();
+		game.resetGuess();
 		game.setEndTime();
 		var statusData = {
 			roundsPlayed: game.roundsPlayed,
@@ -127,7 +128,5 @@ sendNewPlayer = function(data,io) {
 		return;
 	}
 }
-
-
 
 module.exports = { getGame, createGame, sendData, deleteGame, startNextTurn, getPlayerInfo, sendNewPlayer}

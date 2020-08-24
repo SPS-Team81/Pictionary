@@ -28,7 +28,7 @@ export default class ChatBox extends React.Component {
     componentDidMount() {
         this.scrollToBottom();
         socket.on('revieveMessage', (data) => {
-            console.log('Message :' + data.data);
+            console.log('Message :' + data.data[0] + data.data[1] + data.data[2]);
             this.setState({
                 chatList: this.appendMessage(this.state.chatList, data.data),
             });
