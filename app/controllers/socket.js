@@ -3,6 +3,7 @@ let roomManager = require('./room')
 const startSocketConnection = function(server) {
 	let io = require('socket.io')(server);
 	console.log("socket initiated");
+	
 	io.on('connection', (socket) => {
 		socket.on('join', function(room) {
 			let roomJson = JSON.parse(room);
@@ -23,7 +24,6 @@ const startSocketConnection = function(server) {
 		    }			
 			io.sockets.in(roomName).emit('message', JSON.stringify(dataMessage));
 		});
-
 	});
 }
 

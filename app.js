@@ -10,7 +10,7 @@ let socket = require('./app/controllers/socket')
 var url = require('url');
 var bodyParser = require('body-parser');
 
-app.use(require('express').static(path.join(__dirname, 'public')));
+app.use(require('express').static(path.join(__dirname, 'app/views')));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 server.listen(port, () => {
