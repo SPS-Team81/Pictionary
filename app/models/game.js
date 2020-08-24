@@ -1,4 +1,4 @@
-var fs = require("fs");
+const fs = require('fs');
 
 class Game {
     constructor(room, roundDuration, totalRounds) {
@@ -16,7 +16,7 @@ class Game {
     }
 
     fetchWords() {
-        var text = fs.readFileSync("words.txt");
+        var text = fs.readFileSync('./words.txt', { encoding: 'utf8', flag: 'r' });
         text = text + "";
         this.unusedWords = text.split("\n")
     }
@@ -122,6 +122,20 @@ class Game {
     calculateDrawerScore() {
         var points = 500 / (this.room.players.length - 1);
         return parseInt(points);
+    }
+
+    allGuessed() {
+        var count = 0;
+        for (var i = 0; i < this.room.players.length; i++) {
+            if (this.room.players[i].guessStatus) {
+                count += 1;
+            }
+        }
+
+        if (count == this.room.players.length - 1) {
+            return true;
+        }
+        return false;
     }
 
 }

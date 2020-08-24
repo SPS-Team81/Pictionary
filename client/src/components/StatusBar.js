@@ -46,7 +46,7 @@ export default class StatusBar extends React.Component {
                         </th>
 
                         <th className="round-info">
-                            <h3 className="text">Round {this.state.currentRound} of {this.state.totalRounds}</h3>
+                            <h3 className="text">Round {this.state.currentRound + 1} of {this.state.totalRounds}</h3>
                         </th>
 
                         <th className="word">

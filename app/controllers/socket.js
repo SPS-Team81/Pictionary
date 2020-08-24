@@ -110,6 +110,11 @@ const startSocketConnection = function (server) {
 				out = {
 					data: ["System", player.playerName + " guessed correctly!!", "SYSTEM_SOCKET_ID"],
 				}
+
+				if (game.allGuessed()) {
+					game.nextTurn();
+					gameManager.startNextTurn({roomName: game.room.roomName}, io);
+				}
 				io.sockets.in(data.roomName).emit('playerChangeUpdate', gameManager.sendData(data.roomName));
 			} else {
 				out = {
