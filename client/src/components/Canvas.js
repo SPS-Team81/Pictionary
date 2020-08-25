@@ -22,7 +22,7 @@ function Canvas() {
         });
 
         socket.on('clearReceive', () => {
-            onClearCanvas();
+            clearCanvas();
         });
     });
 
@@ -129,7 +129,7 @@ function Canvas() {
         drawLine(data.x0 * w, data.y0 * h, data.x1 * w, data.y1 * h, data.color, data.lineWidth, false);
     }
 
-    const clearCanvas = (roundNumber, totalRounds) => {
+    function clearCanvas() {
         const context = canvasRef.current.getContext('2d');
         context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
     };

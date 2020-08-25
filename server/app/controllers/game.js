@@ -81,6 +81,7 @@ startNextTurn = function(data,io) {
 	if(game.gameEnded != true) {
 		console.log(data.roomName+" starting new turn");
 		game.setNewWord();
+		io.sockets.in(data.roomName).emit('clearReceive');
 		game.resetGuess();
 		game.setEndTime();
 		var statusData = {
