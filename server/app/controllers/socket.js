@@ -80,6 +80,10 @@ const startSocketConnection = function (server) {
 						return;
 					}
 					var game = gameManager.getGame(roomName);
+					if(game.gameEnded) {
+						roomManager.deletePlayer(room, socket.id);
+						return;
+					}
 					if (roomManager.getPlayerIndex(roomName, socket.id) == game.getCurrentPlayerDrawingIndex()) {
 						game.nextTurn();
 						gameManager.startNextTurn({ roomName: roomName }, io);
@@ -106,15 +110,10 @@ const startSocketConnection = function (server) {
 				}
 				player.gain += game.calculatePlayerScore();
 				player.guessStatus = true;
-
-				game.room.players[game.getCurrentPlayerDrawingIndex()].gain += game.calculateDrawerScore();
+				var point = parseInt(player.gain/(game.room.players.length-1));
+				game.room.players[game.getCurrentPlayerDrawingIndex()].gain += point;
 				tempMessage = {
 					data: ["System", player.playerName + " guessed correctly!!", "SYSTEM_SOCKET_ID"],
-				}
-
-				if (game.allGuessed()) {
-					game.nextTurn();
-					gameManager.startNextTurn({roomName: game.room.roomName}, io);
 				}
 				io.sockets.in(data.roomName).emit('playerChangeUpdate', gameManager.sendData(data.roomName));
 			} else {
@@ -122,8 +121,11 @@ const startSocketConnection = function (server) {
 					data: [player.playerName, data.message, socket.id],
 				}
 			}
-
 			io.sockets.in(data.roomName).emit('revieveMessage', tempMessage);
+			if (game.allGuessed()) {
+				game.nextTurn();
+				gameManager.startNextTurn({roomName: game.room.roomName}, io);
+			}
 		});
 
 		socket.on('nextTurn', (data) => {
