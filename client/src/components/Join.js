@@ -4,7 +4,20 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { MenuItem, InputLabel, Select, FormControl, Input } from '@material-ui/core';
+import { makeStyles } from "@material-ui/core/styles";
 import { joinPlayerInGame } from '../api';
+
+const usePlaceholderStyles = makeStyles((theme) => ({
+    placeholder: {
+        color: "#aaa"
+    }
+}));
+
+const Placeholder = ({ children }) => {
+    const classes = usePlaceholderStyles();
+    return <div className={classes.placeholder}>{children}</div>;
+};
 
 export default class Join extends React.Component {
     constructor() {
@@ -48,7 +61,10 @@ export default class Join extends React.Component {
     }
 
     handleCreateRoom() {
-        console.log(this.state.username + this.state.numberOfRounds + this.state.timeToGuess);
+        if (this.state.username === "" || this.state.numberOfRounds === 0 || this.state.timeToGuess === 0) {
+            alert("Please enter the required details");
+            return;
+        }
         var data = {
             playerName: this.state.username,
             isAdmin: true,
@@ -59,7 +75,10 @@ export default class Join extends React.Component {
     }
 
     handleJoinRoom() {
-        console.log(this.state.username + this.state.roomName);
+        if (this.state.username === "" || this.state.roomName === "") {
+            alert("Please enter the required details");
+            return;
+        }
         var data = {
             playerName: this.state.username,
             isAdmin: false,
@@ -90,30 +109,91 @@ export default class Join extends React.Component {
                                 value={this.state.username}
                                 onChange={this.setUsername}
                             />
-                            <TextField
+
+                            <Select
                                 variant="outlined"
-                                margin="normal"
+                                style={{marginTop: 8, marginBottom: 8}}
                                 required
                                 fullWidth
+                                displayEmpty
                                 id="numberOfRounds"
                                 label="Number of Rounds"
                                 name="numberOfRounds"
                                 value={this.state.numberOfRounds}
                                 onChange={this.setNumberOfRounds}
-                            />
-                            <TextField
+                                renderValue={
+                                    this.state.numberOfRounds !== 0
+                                        ? undefined
+                                        : () => <Placeholder>Number of Rounds</Placeholder>
+                                }
+                            >
+                                <MenuItem value={1}>1</MenuItem>
+                                <MenuItem value={2}>2</MenuItem>
+                                <MenuItem value={3}>3</MenuItem>
+                                <MenuItem value={4}>4</MenuItem>
+                                <MenuItem value={5}>5</MenuItem>
+                                <MenuItem value={6}>6</MenuItem>
+                                <MenuItem value={7}>7</MenuItem>
+                                <MenuItem value={8}>8</MenuItem>
+                                <MenuItem value={9}>9</MenuItem>
+                                <MenuItem value={10}>10</MenuItem>
+                                <MenuItem value={11}>11</MenuItem>
+                                <MenuItem value={12}>12</MenuItem>
+                                <MenuItem value={13}>13</MenuItem>
+                                <MenuItem value={14}>14</MenuItem>
+                                <MenuItem value={15}>15</MenuItem>
+                            </Select>
+
+                            <Select
                                 variant="outlined"
-                                margin="normal"
+                                style={{marginTop: 8, marginBottom: 8}}
                                 required
                                 fullWidth
+                                displayEmpty
                                 id="timeToGuess"
                                 label="Time to Guess"
                                 name="timeToGuess"
                                 value={this.state.timeToGuess}
                                 onChange={this.setTimeToGuess}
-                            />
+                                renderValue={
+                                    this.state.timeToGuess !== 0
+                                        ? undefined
+                                        : () => <Placeholder>Time to Guess</Placeholder>
+                                }
+                            >
+                                <MenuItem value={10}>10</MenuItem>
+                                <MenuItem value={20}>20</MenuItem>
+                                <MenuItem value={30}>30</MenuItem>
+                                <MenuItem value={40}>40</MenuItem>
+                                <MenuItem value={50}>50</MenuItem>
+                                <MenuItem value={60}>60</MenuItem>
+                                <MenuItem value={70}>70</MenuItem>
+                                <MenuItem value={80}>80</MenuItem>
+                                <MenuItem value={90}>90</MenuItem>
+                                <MenuItem value={100}>100</MenuItem>
+                                <MenuItem value={110}>110</MenuItem>
+                                <MenuItem value={120}>120</MenuItem>
+                                <MenuItem value={130}>130</MenuItem>
+                                <MenuItem value={140}>140</MenuItem>
+                                <MenuItem value={150}>150</MenuItem>
+                                <MenuItem value={160}>160</MenuItem>
+                                <MenuItem value={170}>170</MenuItem>
+                                <MenuItem value={180}>180</MenuItem>
+                                <MenuItem value={190}>190</MenuItem>
+                                <MenuItem value={200}>200</MenuItem>
+                                <MenuItem value={210}>210</MenuItem>
+                                <MenuItem value={220}>220</MenuItem>
+                                <MenuItem value={230}>230</MenuItem>
+                                <MenuItem value={240}>240</MenuItem>
+                                <MenuItem value={250}>250</MenuItem>
+                                <MenuItem value={260}>260</MenuItem>
+                                <MenuItem value={270}>270</MenuItem>
+                                <MenuItem value={280}>280</MenuItem>
+                                <MenuItem value={290}>290</MenuItem>
+                                <MenuItem value={300}>300</MenuItem>
+                            </Select>
+
                             <Button
-                                // type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary"
@@ -127,7 +207,7 @@ export default class Join extends React.Component {
                 </Grid>
 
                 <Grid item md={3} lg={3}>
-                    <div className="paper" style={{ paddingBottom: 135 }}>
+                    <div className="paper" style={{ paddingBottom: 119 }}>
                         <Typography component="h1" variant="h5">
                             Join a Room
                         </Typography>
@@ -155,7 +235,6 @@ export default class Join extends React.Component {
                                 onChange={this.setRoomName}
                             />
                             <Button
-                                // type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary"

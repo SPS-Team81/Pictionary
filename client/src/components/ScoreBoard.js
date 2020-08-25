@@ -40,7 +40,7 @@ export default class ScoreBoard extends React.Component {
                                                 <Button variant="contained" color="primary">{item.points}</Button>
                                             </TableCell>
                                             <TableCell>
-                                                <Button variant="contained" color="secondary">+{item.gain}</Button>
+                                                <Button variant="contained" color="secondary">+ {item.gain}</Button>
                                             </TableCell>
                                             <TableCell>
                                                 {item.drawing === true &&
