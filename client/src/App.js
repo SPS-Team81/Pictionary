@@ -1,6 +1,7 @@
 import React from 'react';
 import Game from './components/Game';
 import Join from './components/Join';
+import LeaderBoard from './components/LeaderBoard';
 import { socket } from './api'
 
 export default class App extends React.Component {
@@ -9,6 +10,7 @@ export default class App extends React.Component {
         this.state = {
             roomName: '',
             playerName: '',
+            gameOver: true,
         };
     }
 
@@ -37,9 +39,15 @@ export default class App extends React.Component {
                 <Join />
             );
         } else {
-            return (
-                <Game />
-            );
+            if (this.state.gameOver === false) {
+                return (
+                    <Game />
+                );
+            } else {
+                return (
+                    <LeaderBoard />
+                )
+            }
         }
     }
 }
