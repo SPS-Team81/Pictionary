@@ -2,7 +2,7 @@
 import openSocket from 'socket.io-client';
 
 
-export const ENDPOINT = 'http://127.0.0.1:3000/';
+export const ENDPOINT = 'http://192.168.29.253:3000/';
 const socket = openSocket(ENDPOINT);
 var _roomName = '';
 var _playerName = '';

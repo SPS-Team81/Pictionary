@@ -99,6 +99,7 @@ const startSocketConnection = function (server) {
 		socket.on('sendMessage', (data) => {
 			var player = roomManager.getPlayer(data.roomName, socket.id);
 			var game = gameManager.getGame(data.roomName);
+			var tempMessage;
 			if (game.checkWord(data.message)) {
 				if (player.guessStatus || roomManager.getPlayerIndex(data.roomName, socket.id) == game.getCurrentPlayerDrawingIndex()) {
 					return;
@@ -107,7 +108,7 @@ const startSocketConnection = function (server) {
 				player.guessStatus = true;
 
 				game.room.players[game.getCurrentPlayerDrawingIndex()].gain += game.calculateDrawerScore();
-				out = {
+				tempMessage = {
 					data: ["System", player.playerName + " guessed correctly!!", "SYSTEM_SOCKET_ID"],
 				}
 
@@ -117,12 +118,12 @@ const startSocketConnection = function (server) {
 				}
 				io.sockets.in(data.roomName).emit('playerChangeUpdate', gameManager.sendData(data.roomName));
 			} else {
-				out = {
+				tempMessage = {
 					data: [player.playerName, data.message, socket.id],
 				}
 			}
 
-			io.sockets.in(data.roomName).emit('revieveMessage', out);
+			io.sockets.in(data.roomName).emit('revieveMessage', tempMessage);
 		});
 
 		socket.on('nextTurn', (data) => {

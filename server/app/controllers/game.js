@@ -78,6 +78,12 @@ const sendData = function(roomName) {
 startNextTurn = function(data,io) {
 	var game = getGame(data.roomName);
 	game.addGain();
+	if(game.getCurrentWord()!='') {
+		var tempMessage = {
+			data: ["System", "Correct word was \""+ game.getCurrentWord() + "\"", "SYSTEM_SOCKET_ID"],
+		}
+		io.sockets.in(data.roomName).emit('revieveMessage', tempMessage);
+	}
 	if(game.gameEnded != true) {
 		console.log(data.roomName+" starting new turn");
 		game.setNewWord();
@@ -108,7 +114,6 @@ startNextTurn = function(data,io) {
 sendNewPlayer = function(data,io) {
 	var game = getGame(data.roomName);
 	if(game.gameEnded != true) {
-		console.log(data.roomName+" starting new turn");
 		var statusData = {
 			roundsPlayed: game.roundsPlayed,
 			totalRounds: game.getTotalRounds(),

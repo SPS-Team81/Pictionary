@@ -7,12 +7,12 @@ class Game {
         this.room = room;
         this.roundsPlayed = 0;
         this.currentPlayerDrawingIndex = 0;
-        this.unusedWords = ['car', 'bus', 'road', 'light', 'pen'];
+        this.unusedWords = [];
         this.currentWord = '';
         this.gameEnded = false;
         this.endTime = new Date();
 
-        // this.fetchWords();
+        this.fetchWords();
     }
 
     fetchWords() {
@@ -66,10 +66,9 @@ class Game {
         }
         this.unusedWords.pop();
 
-        console.log("Length of unused Words: " + this.unusedWords.length);
 
         if (this.unusedWords.length == 0) {
-            // this.fetchWords();
+            this.fetchWords();
         }
     }
 
@@ -103,8 +102,13 @@ class Game {
 
     checkWord(word) {
         var tempWord = word + "";
+        tempWord = tempWord.split(" ").join("");
+        var correctWord = this.currentWord;
+        correctWord = correctWord + "";
+        correctWord = correctWord.split(" ").join("");
+        correctWord = correctWord.toLowerCase();
         var newWord = tempWord.toLowerCase();
-        if (newWord === this.currentWord) {
+        if (newWord === correctWord) {
             return true;
         }
         return false;
