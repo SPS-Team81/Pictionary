@@ -9,7 +9,7 @@ const { response } = require('express');
 const startSocketConnection = function (server) {
 	let io = require('socket.io')(server);
 	console.log("socket initiated");
-
+	
 	io.on('connection', (socket) => {
 
 		socket.on('join', function (room) {
@@ -138,7 +138,6 @@ const startSocketConnection = function (server) {
 		// socket.on('startGame',(data) => {
 		// 	gameManager.startNextTurn(data,io);
 		// });
-
 	});
 
 }
