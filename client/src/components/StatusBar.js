@@ -1,6 +1,6 @@
 import React from 'react';
 import './statusbar.css'
-import { socket,_roomName } from '../api';
+import { socket, _roomName } from '../api';
 
 export default class StatusBar extends React.Component {
     constructor() {
@@ -14,8 +14,8 @@ export default class StatusBar extends React.Component {
     }
 
     componentDidMount() {
-        socket.on('statusBarData',(data) => {
-            if(data.playerInfo.socketId==socket.id) {
+        socket.on('statusBarData', (data) => {
+            if (data.playerInfo.socketId === socket.id) {
                 this.setState({
                     currentRound: data.roundsPlayed,
                     totalRounds: data.totalRounds,
@@ -51,7 +51,7 @@ export default class StatusBar extends React.Component {
 
                         <th className="word">
                             {this.state.player.drawing === true &&
-                                <h3 className="text">{this.state.word}</h3>
+                                <h3 className="text">Word: {this.state.word}</h3>
                             }
                             {this.state.player.drawing === false &&
                                 <h3 className="text">{blankWord}</h3>

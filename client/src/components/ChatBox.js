@@ -1,7 +1,7 @@
 import React from 'react';
 import './chatbox.css'
 import { TextField, MuiThemeProvider, createMuiTheme, colors } from '@material-ui/core';
-import { _playerName, socket, _roomName } from '../api'
+import { socket, _roomName } from '../api'
 
 const customTheme = createMuiTheme({ palette: { primary: colors.blue, secondary: colors.green } });
 

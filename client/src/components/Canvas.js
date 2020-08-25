@@ -18,12 +18,6 @@ function Canvas() {
         });
 
         socket.on('drawReceive', (data) => {
-            // var data = JSON.parse(tempData); 
-            // console.log(data.x0);
-            // console.log(data.y0);
-            // console.log(data.x1);
-            // console.log(data.y1);
-            // console.log(data.color);
             onDrawingEvent(data);
         });
 
@@ -69,13 +63,6 @@ function Canvas() {
         }
         socket.emit('drawEvent', data);
     }
-
-    // function erase(e) {
-    //     const context = canvasRef.current.getContext('2d');
-    //     context.globalCompositeOperation = "destination-out";
-    //     context.arc(current.x, current.y, 8, 0, Math.PI * 2, false);
-    //     context.fill();
-    // }
 
     function obtainPosition(e) {
         var rect = e.target.getBoundingClientRect();
@@ -163,7 +150,7 @@ function Canvas() {
 
     function onClearCanvas() {
         if (playerInfo.drawing) {
-            socket.emit("clearCanvas", {roomName: _roomName});
+            socket.emit("clearCanvas", { roomName: _roomName });
         }
         const context = canvasRef.current.getContext('2d');
         context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
