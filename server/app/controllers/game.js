@@ -1,6 +1,7 @@
 const Game = require('../models/game')
 const Room = require('../models/room')
 const roomManager = require('./room.js')
+const player = require('./player')
 
 var games = []
 
@@ -107,7 +108,8 @@ startNextTurn = function(data,io) {
 			io.sockets.in(data.roomName).emit('statusBarData',statusData);
 		}
 	} else {
-		return;
+		io.sockets.in(data.roomName).emit('GameOver');
+		io.sockets.in(data.roomName).emit('leaderboard',sendLeaderboard(data.roomName));
 	}
 }
 
@@ -131,8 +133,42 @@ sendNewPlayer = function(data,io) {
 			io.sockets.in(data.roomName).emit('statusBarData',statusData);
 		}
 	} else {
-		return;
+		io.sockets.in(data.roomName).emit('GameOver');
+		io.sockets.in(data.roomName).emit('leaderboard',sendLeaderboard(data.roomName));
 	}
+}
+
+sendLeaderboard = function(roomName) {
+	var game = getGame(roomName);
+	var tmp = [];
+	for(var i=0;i<game.room.players.length;i++) {
+		tmp.push(game.room.players[i]);
+	}
+	var swapt;
+	for(var i=0;i<tmp.length;i++) {
+		for(var j=1;j<tmp.length-i;j++) {
+			if(tmp[j].points>tmp[j-1].points) {
+				swapt = tmp[j];
+				tmp[j] = tmp[j-1];
+				tmp[j-1] = swapt;
+			}
+		}
+	}
+	var pre = -1,num = 0;
+	var playerList = [];
+	for(var i=0;i<tmp.length;i++) {
+		if(tmp[i].points!=pre) {
+			pre=tmp[i].points;
+			num = i+1;
+		}
+		var info = {
+			rank: parseInt(num),
+			username: tmp[i].playerName,
+			points: parseInt(tmp[i].points),
+		}
+		playerList.push(info);
+	}
+	return playerList;
 }
 
 module.exports = { getGame, createGame, sendData, deleteGame, startNextTurn, getPlayerInfo, sendNewPlayer}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Table, TableBody, TableRow, TableCell, Button } from '@material-ui/core';
 import './leaderboard.css';
+import { socket } from '../api';
 
 export default class LeaderBoard extends React.Component {
     constructor() {
@@ -8,6 +9,14 @@ export default class LeaderBoard extends React.Component {
         this.state = {
             playersList: [{ username: "player1", points: 80 }, { username: "player2", points: 50 }],
         }
+    }
+
+    componentDidMount() {
+        socket.on('leaderboard', (data) => {
+            this.setState({
+                playersList: data,
+            });
+        });
     }
 
     render() {

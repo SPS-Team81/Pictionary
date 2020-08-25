@@ -10,7 +10,7 @@ export default class App extends React.Component {
         this.state = {
             roomName: '',
             playerName: '',
-            gameOver: true,
+            gameOver: false,
         };
     }
 
@@ -30,6 +30,11 @@ export default class App extends React.Component {
             this.setState({
                 playerCount: data.count,
             });
+        });
+        socket.on('GameOver',() => {
+            this.setState({
+                gameOver: true,
+            })
         });
     }
 
