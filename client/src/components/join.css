@@ -23,12 +23,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 5vw;
+    font-size: 7vw;
+    font-weight: bolder;
     font-family: 'Rock Salt';
 }
 
 .back {
-    background-color:  #2196F3;
+    background-image: url("https://st.depositphotos.com/1670531/3809/v/950/depositphotos_38095315-stock-illustration-doodles.jpg");
     position:fixed;
     width:100%;
     height:100%;
