@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { MenuItem, InputLabel, Select, FormControl, Input } from '@material-ui/core';
+import { MenuItem, Select } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
 import { joinPlayerInGame } from '../api';
 
@@ -89,7 +89,17 @@ export default class Join extends React.Component {
 
     render() {
         return (
-            <Grid container className="layoutContainer">
+            <Grid container className="layoutContainer back">
+                <Grid item md={4} lg={4}></Grid>
+
+                <Grid item md={4} lg={4}>
+                    <div className="main-title">
+                        PICTIONARY
+                    </div>
+                </Grid>
+
+                <Grid item md={4} lg={4}></Grid>
+
                 <Grid item md={3} lg={3}></Grid>
 
                 <Grid item md={3} lg={3}>
@@ -112,7 +122,7 @@ export default class Join extends React.Component {
 
                             <Select
                                 variant="outlined"
-                                style={{marginTop: 8, marginBottom: 8}}
+                                style={{ marginTop: 8, marginBottom: 8 }}
                                 required
                                 fullWidth
                                 displayEmpty
@@ -124,7 +134,7 @@ export default class Join extends React.Component {
                                 renderValue={
                                     this.state.numberOfRounds !== 0
                                         ? undefined
-                                        : () => <Placeholder>Number of Rounds</Placeholder>
+                                        : () => <Placeholder>Number of Rounds *</Placeholder>
                                 }
                             >
                                 <MenuItem value={1}>1</MenuItem>
@@ -146,7 +156,7 @@ export default class Join extends React.Component {
 
                             <Select
                                 variant="outlined"
-                                style={{marginTop: 8, marginBottom: 8}}
+                                style={{ marginTop: 8, marginBottom: 8 }}
                                 required
                                 fullWidth
                                 displayEmpty
@@ -158,7 +168,7 @@ export default class Join extends React.Component {
                                 renderValue={
                                     this.state.timeToGuess !== 0
                                         ? undefined
-                                        : () => <Placeholder>Time to Guess</Placeholder>
+                                        : () => <Placeholder>Time to Guess *</Placeholder>
                                 }
                             >
                                 <MenuItem value={10}>10</MenuItem>
@@ -207,7 +217,7 @@ export default class Join extends React.Component {
                 </Grid>
 
                 <Grid item md={3} lg={3}>
-                    <div className="paper" style={{ paddingBottom: 119 }}>
+                    <div className="paper">
                         <Typography component="h1" variant="h5">
                             Join a Room
                         </Typography>
@@ -225,7 +235,7 @@ export default class Join extends React.Component {
                             />
                             <TextField
                                 variant="outlined"
-                                margin="normal"
+                                style={{ marginTop: 8, marginBottom: 8 }}
                                 required
                                 fullWidth
                                 id="roomName"
@@ -234,6 +244,7 @@ export default class Join extends React.Component {
                                 value={this.state.roomName}
                                 onChange={this.setRoomName}
                             />
+                            <p style={{ color: "gray", marginTop: 15, marginBottom: 18 }}>Room Name is a unique code which someone shares with you which lets you join their room.</p>
                             <Button
                                 fullWidth
                                 variant="contained"

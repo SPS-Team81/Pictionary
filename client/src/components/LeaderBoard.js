@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Table, TableBody, TableRow, TableCell, Button } from '@material-ui/core';
+import { Grid, Table, TableBody, TableRow, TableCell } from '@material-ui/core';
 import './leaderboard.css';
 import { socket } from '../api';
 

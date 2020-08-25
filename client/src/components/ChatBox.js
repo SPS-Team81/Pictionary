@@ -56,7 +56,7 @@ export default class ChatBox extends React.Component {
             roomName: _roomName,
             message: this.state.message,
         };
-        if(this.state.message.length!=0) {
+        if (this.state.message.length !== 0) {
             socket.emit('sendMessage', data);
         }
 
