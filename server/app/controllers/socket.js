@@ -132,7 +132,6 @@ const startSocketConnection = function (server) {
 		});
 
 		socket.on('clearCanvas', (data) => {
-			console.log("CLear");
 			socket.to(data.roomName).emit('clearReceive');
 		});
 
