@@ -1,29 +1,45 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
-import Canvas from './components/Canvas';
-import ScoreBoard from './components/ScoreBoard';
-import Timer from './components/Timer';
-import ChatBox from './components/ChatBox';
-import CanvasDraw from 'react-canvas-draw';
+import Game from './components/Game';
+import Join from './components/Join';
+import { socket, _roomName } from './api'
 
-function App() {
-    return (
-        <Grid container className="layoutContainer">
-            <Grid item md={3} lg={3}>
-                <ScoreBoard />
-            </Grid>
+export default class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            roomName: '',
+            playerName: '',
+        };
+    }
 
-            <Grid item md={6} lg={6}>
-                <Canvas />
-            </Grid>
+    componentDidMount() {
+        socket.on('newJoinee', (tempData) => {
+            var data = JSON.parse(tempData);
+            if (data.status == 200) {
+                this.setState({
+                    roomName: data.roomName,
+                    playerName: data.playerName,
+                });
+            } else {
+                alert('This Room Does Not Exist');
+            }
+        });
+        socket.on('playerCountUpdate', (data) => {
+            this.setState({
+                playerCount: data.count,
+            });
+        });
+    }
 
-            <Grid item md={3} lg={3}>
-                <Timer />
-                <ChatBox />
-            </Grid>
-
-        </Grid>
-    );
+    render() {
+        if (this.state.roomName === "") {
+            return (
+                <Join />
+            );
+        } else {
+            return (
+                <Game />
+            );
+        }
+    }
 }
-
-export default App;

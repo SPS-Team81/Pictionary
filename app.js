@@ -5,6 +5,7 @@ const {port} = require('./config');
 
 let roomManager = require('./app/controllers/room')
 let playerManager = require('./app/controllers/player')
+let gameManager =  require('./app/controllers/game')
 let socket = require('./app/controllers/socket')
 
 var url = require('url');
@@ -23,10 +24,11 @@ app.get('/', (req, res) => {
 });
 
 app.post('/createRoom', function (req, res) {
-	let room = roomManager.createRoom(req.body.noOfRounds, req.body.timeToGuess);
+	let room = roomManager.createRoom();
 	let player = playerManager.createPlayer(req.body.playerName, true);
 	roomManager.addPlayerToRoom(room.roomName, player);
-
+	let game = gameManager.createGame(room, parseInt(req.body.timeToGuess), parseInt(req.body.noOfRounds));
+	
 	var data = {
 	    playerName: req.body.playerName,
 	    isAdmin: true,
@@ -48,3 +50,4 @@ app.post('/joinRoom', function (req, res) {
 app.get('/game', (req, res) => {
 	res.sendFile(__dirname + '/app/views/game.html');
 });
+

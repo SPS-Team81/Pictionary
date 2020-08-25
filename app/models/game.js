@@ -1,41 +1,45 @@
-var fs = require("fs");
+const fs = require('fs');
 
 class Game {
-    constructor(room,roundDuration,totalRounds,players) {
-        this.roundDuration = roundDuration;
-        this.totalRounds = totalRounds;
+    constructor(room, roundDuration, totalRounds) {
+        this.roundDuration = parseInt(roundDuration);
+        this.totalRounds = parseInt(totalRounds);
         this.room = room;
         this.roundsPlayed = 0;
         this.currentPlayerDrawingIndex = 0;
-        this.unusedWords = [];
-        this.currentWord = none;
+        this.unusedWords = ['car', 'bus', 'road', 'light', 'pen'];
+        this.currentWord = '';
+        this.gameEnded = false;
+        this.endTime = new Date();
 
-        this.getWords();
+        // this.fetchWords();
     }
 
-    getWords() {
-        fs.readFile("../../words.txt", function(text){
-            this.unusedWords = text.split("\n")
-        });
+    fetchWords() {
+        var text = fs.readFileSync('./words.txt', { encoding: 'utf8', flag: 'r' });
+        text = text + "";
+        this.unusedWords = text.split("\n")
     }
 
     resetGame() {
-        for (const player of this.room.players) {
-            player.points = 0;
+        for (index = 0; index < this.room.players.length; index++) {
+            this.room.players[index].points = 0;
         }
+        this.resetGuess();
+        this.gameEnded = false;
         this.roundsPlayed = 0;
         this.currentPlayerDrawingIndex = 0;
     }
 
-    getCurrentPlayerDrawing() {
-        return this.game.players[this.currentPlayerDrawingIndex];
+    getCurrentPlayerDrawingIndex() {
+        return this.currentPlayerDrawingIndex;
     }
 
-    getCurrentWord = function() {
+    getCurrentWord() {
         return this.currentWord;
     }
 
-    getRoundDuration(){
+    getRoundDuration() {
         return this.roundDuration;
     }
 
@@ -43,23 +47,97 @@ class Game {
         return this.totalRounds;
     }
 
-    setNewWord() {
-        this.currentWord = this.unusedWords[Math.floor((Math.random() * this.unusedWords.length))];
-        this.unusedWords.remove(this.currentWord);
+    getEndTime() {
+        return this.endTime;
     }
+
+    setEndTime() {
+        var dt = new Date();
+        dt.setSeconds(dt.getSeconds() + this.getRoundDuration() + 3);
+        this.endTime = dt;
+    }
+
+    setNewWord() {
+        var index = Math.floor((Math.random() * this.unusedWords.length));
+        this.currentWord = this.unusedWords[index];
+
+        for (var i = index; i < this.unusedWords.length - 1; i++) {
+            this.unusedWords[i] = this.unusedWords[i + 1];
+        }
+        this.unusedWords.pop();
+
+        console.log("Length of unused Words: " + this.unusedWords.length);
+
+        if (this.unusedWords.length == 0) {
+            // this.fetchWords();
+        }
+    }
+
+    addGain() {
+        for (var i = 0; i < this.room.players.length; i++) {
+            this.room.players[i].points = this.room.players[i].points + this.room.players[i].gain;
+            this.room.players[i].gain = 0;
+        }
+    }
+
+    resetGuess() {
+        for (var i = 0; i < this.room.players.length; i++) {
+            this.room.players[i].guessStatus = false;
+        }
+    }
+
 
     nextTurn() {
         this.currentPlayerDrawingIndex += 1;
-        if(this.currentPlayerDrawingIndex == this.room.players.length) {
+        if (this.currentPlayerDrawingIndex == this.room.players.length) {
             this.roundsPlayed += 1;
             this.currentPlayerDrawingIndex = 0;
-            if(this.roundsPlayed == this.totalRounds) {
-                this.announceWinner();
+            if (this.roundsPlayed == this.totalRounds) {
+                // this.announceWinner();
+                this.gameEnded = true;
                 return;
             }
         }
-        this.setNewWord();
+        // this.setNewWord();
     }
+
+    checkWord(word) {
+        var tempWord = word + "";
+        var newWord = tempWord.toLowerCase();
+        if (newWord === this.currentWord) {
+            return true;
+        }
+        return false;
+    }
+
+    calculatePlayerScore() {
+        var endTime = new Date(this.endTime);
+        var currTime = new Date();
+        var seconds = (endTime.getTime() - currTime.getTime()) / 1000;
+
+        var points = (seconds * 500) / (this.roundDuration);
+        return parseInt(points);
+    }
+
+    calculateDrawerScore() {
+        var points = 500 / (this.room.players.length - 1);
+        return parseInt(points);
+    }
+
+    allGuessed() {
+        var count = 0;
+        for (var i = 0; i < this.room.players.length; i++) {
+            if (this.room.players[i].guessStatus) {
+                count += 1;
+            }
+        }
+
+        if (count == this.room.players.length - 1) {
+            return true;
+        }
+        return false;
+    }
+
 }
 
 module.exports = Game
