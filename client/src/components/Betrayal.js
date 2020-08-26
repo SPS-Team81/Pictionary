@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Table, TableBody, TableRow, TableCell } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import './betrayal.css';
 
 export default class LeaderBoard extends React.Component {

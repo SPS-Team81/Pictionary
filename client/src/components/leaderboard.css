@@ -6,7 +6,7 @@
     padding: 3vw;
     border-style: solid;
     background-color: white;
-    opacity: 0.9;
+    opacity: 0.95;
 }
 
 .title {
@@ -33,7 +33,7 @@
     font-size: 1.5vw;
 }
 
-img {
+.crown {
     width: 4.2vw;
     height: 3vw;
     margin-bottom: 0vw;
@@ -45,4 +45,9 @@ img {
     font-weight: bold;
     margin-top: 0vw;
     margin-bottom: 0vw;
+}
+
+.button {
+    margin-top: 3vw;
+    padding-top: 1vw;
 }

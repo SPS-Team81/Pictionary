@@ -110,7 +110,7 @@ export default class ChatBox extends React.Component {
                             variant="outlined"
                             margin="normal"
                             id="messageBox"
-                            label="Enter your message here"
+                            label="Message"
                             name="messageBox"
                             value={this.state.message}
                             onChange={this.setMessage}

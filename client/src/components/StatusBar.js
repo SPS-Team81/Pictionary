@@ -39,26 +39,22 @@ export default class StatusBar extends React.Component {
 
         return (
             <div className="status-bar">
-                <table>
-                    <tr>
-                        <th className="room-id">
-                            <h3 className="text">Room ID: {_roomName}</h3>
-                        </th>
+                <div className="room-id">
+                    <h3 className="text">Room ID: {_roomName}</h3>
+                </div>
 
-                        <th className="round-info">
-                            <h3 className="text">Round {this.state.currentRound + 1} of {this.state.totalRounds}</h3>
-                        </th>
+                <div className="round-info">
+                    <h3 className="text">Round {this.state.currentRound + 1} of {this.state.totalRounds}</h3>
+                </div>
 
-                        <th className="word">
-                            {this.state.player.drawing === true &&
-                                <h3 className="text">Word: {this.state.word}</h3>
-                            }
-                            {this.state.player.drawing === false &&
-                                <h3 className="text">{blankWord}</h3>
-                            }
-                        </th>
-                    </tr>
-                </table>
+                <div className="word">
+                    {this.state.player.drawing === true &&
+                        <h3 className="text">Word: {this.state.word}</h3>
+                    }
+                    {this.state.player.drawing === false &&
+                        <h3 className="text">{blankWord}</h3>
+                    }
+                </div>
 
             </div>
         )

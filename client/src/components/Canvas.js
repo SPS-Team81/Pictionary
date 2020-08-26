@@ -191,6 +191,10 @@ function Canvas() {
                     </div>
                 </div>
             }
+
+            {playerInfo.drawing === false && 
+                <div className="canvas-tools"></div>
+            }
         </div>
     );
 };

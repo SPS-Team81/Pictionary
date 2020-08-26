@@ -5,6 +5,7 @@
     align-items: center;
     padding: 3vw;
     border-style: solid;
+    border-width: 0.4vh;
     background-color: white;
     opacity: 0.8;
 }

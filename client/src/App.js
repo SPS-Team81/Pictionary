@@ -54,7 +54,7 @@ export default class App extends React.Component {
                 if (this.state.betrayal === false) {
                     return (
                         <LeaderBoard />
-                    )
+                    );
                 } else {
                     return (
                         <Betrayal />

@@ -1,31 +1,31 @@
 .chat-box {
-    height: 46vw;
+    height: 92vh;
     border-style: solid;
     margin-right: 1vw;
+    border-width: 0.4vh;
     background-color: white;
 }
 
 .messages {
-    height: 38vw;
-    padding: 1vw;
+    height: 79vh;
+    padding: 2vh 1vw 2vh 1vw;
     overflow-y: scroll;
 }
 
 .message-box {
-    padding: 1vw;
+    padding: 0vh 1vw 0vh 1vw;
 }
 
 .input-box {
-    width: 85%;
-    margin: 1vw;
+    width: 18vw;
     color: "gray";
 }
 
 .send-button {
-    margin-top: 1vw;
+    margin-top: 2vh;
     margin-left: 0.4vw;
-    padding: 0.6vw 0.25vw 0 0.25vw;
-    height: 2vw;
+    padding: 1.2vh 0.25vw 0vh 0.25vw;
+    height: 4vh;
     width: 2vw;
     cursor: pointer;
     border-style: solid;
@@ -70,4 +70,5 @@
 .message {
     margin-top: 0.3vw;
     margin-bottom: 0.2vw;
+    word-break: break-all;
 }

@@ -1,13 +1,13 @@
 import React from 'react';
-import { Grid, Table, TableBody, TableRow, TableCell } from '@material-ui/core';
+import { Grid, Table, TableBody, TableRow, TableCell, Button } from '@material-ui/core';
 import './leaderboard.css';
-import { socket } from '../api';
+import { socket, CURR } from '../api';
 
 export default class LeaderBoard extends React.Component {
     constructor() {
         super();
         this.state = {
-            playersList: [{ rank: 1, username: "player1", points: 80 }, { rank: 2, username: "player2", points: 50 }],
+            playersList: [],
         }
     }
 
@@ -27,7 +27,7 @@ export default class LeaderBoard extends React.Component {
                 <Grid item md={4} lg={4}>
                     <div className="leaderboard">
                         <h1 className="title">Game Over</h1>
-                        <img src="https://i.pinimg.com/originals/44/d5/ff/44d5ff705fd223c4cddd1cdc1e2eefa1.jpg" alt=""></img>
+                        <img src="https://i.pinimg.com/originals/44/d5/ff/44d5ff705fd223c4cddd1cdc1e2eefa1.jpg" alt="" className="crown"></img>
                         <h2 className="subtitle">Leaderboard</h2>
                         <Table>
                             <TableBody>{this.state.playersList.map(function (item, key) {
@@ -41,6 +41,7 @@ export default class LeaderBoard extends React.Component {
                             }, this)}
                             </TableBody>
                         </Table>
+                        <Button variant="contained" color="primary" href={CURR} style={{ marginTop: 20, fontSize: 25 }}>Play again</Button>
                     </div>
                 </Grid>
 
