@@ -24,30 +24,14 @@ app.get('/', (req, res) => {
 });
 
 app.post('/createRoom', function (req, res) {
-	let room = roomManager.createRoom();
-	let player = playerManager.createPlayer(req.body.playerName, true);
-	roomManager.addPlayerToRoom(room.roomName, player);
-	let game = gameManager.createGame(room, parseInt(req.body.timeToGuess), parseInt(req.body.noOfRounds));
 	
-	var data = {
-	    playerName: req.body.playerName,
-	    isAdmin: true,
-	    roomName: room.roomName,
-	};
-	res.send(data);
 });
 
 app.post('/joinRoom', function (req, res) {
-	let player = playerManager.createPlayer(req.body.playerName, false);
-	let status = roomManager.addPlayerToRoom(req.body.roomName, player);
-	let data = {
-		status: status,
-	};
-	res.status(status);
-	res.send(JSON.stringify(data));
+	
 });
 
 app.get('/game', (req, res) => {
-	res.sendFile(__dirname + '/app/views/game.html');
+	// res.sendFile(__dirname + '/app/views/game.html');
 });
 
