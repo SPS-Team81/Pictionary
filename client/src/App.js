@@ -2,6 +2,7 @@ import React from 'react';
 import Game from './components/Game';
 import Join from './components/Join';
 import LeaderBoard from './components/LeaderBoard';
+import Betrayal from './components/Betrayal';
 import { socket } from './api'
 
 export default class App extends React.Component {
@@ -11,6 +12,7 @@ export default class App extends React.Component {
             roomName: '',
             playerName: '',
             gameOver: false,
+            betrayal: false,
         };
     }
 
@@ -31,7 +33,7 @@ export default class App extends React.Component {
                 playerCount: data.count,
             });
         });
-        socket.on('GameOver',() => {
+        socket.on('GameOver', () => {
             this.setState({
                 gameOver: true,
             })
@@ -49,9 +51,15 @@ export default class App extends React.Component {
                     <Game />
                 );
             } else {
-                return (
-                    <LeaderBoard />
-                )
+                if (this.state.betrayal === false) {
+                    return (
+                        <LeaderBoard />
+                    )
+                } else {
+                    return (
+                        <Betrayal />
+                    );
+                }
             }
         }
     }
