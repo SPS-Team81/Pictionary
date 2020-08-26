@@ -110,7 +110,7 @@ const startSocketConnection = function (server) {
 				}
 				player.gain += game.calculatePlayerScore();
 				player.guessStatus = true;
-				var point = parseInt(player.gain/(game.room.players.length-1));
+				var point = parseInt(player.gain/(game.room.players.length-1) + 10);
 				game.room.players[game.getCurrentPlayerDrawingIndex()].gain += point;
 				tempMessage = {
 					data: ["System", player.playerName + " guessed correctly!!", "SYSTEM_SOCKET_ID"],
