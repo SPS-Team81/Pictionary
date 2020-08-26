@@ -38,6 +38,12 @@ export default class App extends React.Component {
                 gameOver: true,
             })
         });
+        socket.on('Betrayal', () => {
+            this.setState({
+                gameOver: true,
+                betrayal: true,
+            });
+        });
     }
 
     render() {

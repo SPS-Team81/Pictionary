@@ -84,6 +84,11 @@ const startSocketConnection = function (server) {
 						roomManager.deletePlayer(room, socket.id);
 						return;
 					}
+					if(game.room.players.length==2) {
+						io.sockets.in(roomName).emit('Betrayal');
+						roomManager.deletePlayer(room, socket.id);
+						return;
+					}
 					if (roomManager.getPlayerIndex(roomName, socket.id) == game.getCurrentPlayerDrawingIndex()) {
 						game.nextTurn();
 						gameManager.startNextTurn({ roomName: roomName }, io);
