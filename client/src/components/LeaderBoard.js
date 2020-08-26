@@ -21,21 +21,21 @@ export default class LeaderBoard extends React.Component {
 
     render() {
         return (
-            <Grid container className="layoutConatiner">
+            <Grid container className="layoutConatiner back">
                 <Grid item md={4} lg={4}></Grid>
 
                 <Grid item md={4} lg={4}>
-                    <div className="board">
+                    <div className="leaderboard">
                         <h1 className="title">Game Over</h1>
-                        <img src="https://i.pinimg.com/originals/44/d5/ff/44d5ff705fd223c4cddd1cdc1e2eefa1.jpg" alt="" style={{ width: 90, height: 60 }}></img>
-                        <h2>Leaderboard</h2>
+                        <img src="https://i.pinimg.com/originals/44/d5/ff/44d5ff705fd223c4cddd1cdc1e2eefa1.jpg" alt=""></img>
+                        <h2 className="subtitle">Leaderboard</h2>
                         <Table>
                             <TableBody>{this.state.playersList.map(function (item, key) {
                                 return (
                                     <TableRow key={key} className="row">
-                                        <TableCell style={{ textAlign: "center", fontSize: 30 }}>#{item.rank}</TableCell>
-                                        <TableCell style={{ textAlign: "center", fontSize: 30 }}>{item.username}</TableCell>
-                                        <TableCell style={{ textAlign: "center", fontSize: 30 }}>{item.points}</TableCell>
+                                        <TableCell><p className="entry">#{item.rank}</p></TableCell>
+                                        <TableCell><p className="entry">{item.username}</p></TableCell>
+                                        <TableCell><p className="entry">{item.points}</p></TableCell>
                                     </TableRow>
                                 )
                             }, this)}
