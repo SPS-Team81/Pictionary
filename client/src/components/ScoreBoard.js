@@ -26,9 +26,9 @@ export default class ScoreBoard extends React.Component {
         return (
             <MuiThemeProvider theme={customTheme}>
                 <div className="score-board">
-                    <h3 className="score">
-                        Scoreboard
-                </h3>
+                    <div className="score-bar">
+                        <h3 className="score">Scoreboard</h3>
+                    </div>
                     <div className="players">
                         <TableContainer>
                             <Table>

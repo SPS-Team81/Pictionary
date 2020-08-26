@@ -1,32 +1,32 @@
 .status-bar {
     background-color: lightgray;
     margin-right: 1vw;
-    margin-top: 1vw;
+    margin-top: 2vh;
     margin-left: 1vw;
     border-style: solid solid solid solid;
+    border-width: 0.4vh;
+    width: 47.7vw;
+    height: 4vh;
+    display: flex;
 }
 
 .text {
-    padding: 0.4vw;
-    margin-bottom: 0vw;
+    padding: 1vh 0.5vw 1vh 0.5vw;
+    margin-bottom: 1vh;
     margin-top: 0vw;
 }
 
-tr, th {
-    padding-top: 0vw;
-    padding-bottom: 0vw;
-}
-
 .room-id {
-    width: 20vw;
+    width: 36%;
     text-align: left;
 }
 
 .round-info {
-    width: 15vw;
+    width: 28%;
+    text-align: center;
 }
 
 .word {
+    width: 36%;
     text-align: right;
-    width: 20vw;
 }

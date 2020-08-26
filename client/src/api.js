@@ -3,9 +3,12 @@ import openSocket from 'socket.io-client';
 
 // Development 
 export const ENDPOINT = 'http://127.0.0.1:3000';
+export const CURR = 'http://127.0.0.1:8000';
 
 // Production
 // export const ENDPOINT = 'http://manasvi-sps-summer20.el.r.appspot.com/';
+// export const ENDPOINT = 'http://summer20-sps-81.el.r.appspot.com/';
+
 const socket = openSocket(ENDPOINT);
 var _roomName = '';
 var _playerName = '';
